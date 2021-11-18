@@ -5,7 +5,6 @@ import Home from './components/Home';
 import Cart from './components/Cart';
 import Aside from './components/Aside';
 
-
 class App extends Component {
   render() {
     return (
