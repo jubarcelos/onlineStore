@@ -1,3 +1,5 @@
+// Iniciando Requisito 1. Implemente o módulo de acesso à api do Mercado Livre
+
 export async function getCategories() {
   // Implemente aqui
 }
