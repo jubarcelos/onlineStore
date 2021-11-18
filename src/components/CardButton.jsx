@@ -10,7 +10,7 @@ class CardButton extends React.Component {
           data-testid="shopping-cart-button"
         >
           <img
-            width="30px"
+            width="25px"
             src="https://cdn-icons-png.flaticon.com/512/126/126510.png"
             alt="logo"
           />
