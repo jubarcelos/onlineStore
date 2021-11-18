@@ -17,7 +17,7 @@ class Aside extends Component {
 
   getCategory = () => {
     api.getCategories()
-      .then(requestJson => {
+      .then((requestJson) => {
         this.setState({
           categoriesLink: requestJson.map(({ name }) => name),
         });
@@ -31,7 +31,7 @@ class Aside extends Component {
         {
           categoriesLink.map((category) => (
             <label htmlFor={ category } key={ category } data-testid="category">
-              { category }:
+              { category }
               <input
                 type="radio"
                 id={ category }
