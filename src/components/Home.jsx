@@ -4,6 +4,7 @@ class Home extends React.Component {
   render() {
     return (
       <div>
+        <input type="text" />
         <h1
           data-testid="home-initial-message"
         >
