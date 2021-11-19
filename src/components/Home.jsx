@@ -9,6 +9,7 @@ class Home extends React.Component {
     super();
     this.state = {
       productsList: [],
+      name: '',
     };
   }
 
@@ -19,8 +20,8 @@ class Home extends React.Component {
     });
   }
 
-  handleClick = async (categoryId, query) => {
-    const products = await api.getProductsFromCategoryAndQuery(categoryId, query);
+  handleClick = async (query) => {
+    const products = await api.getByQuery(query);
     this.setState(({ productsList: products }));
   }
 
@@ -45,6 +46,7 @@ class Home extends React.Component {
       handleClick,
       showCards,
     } = this;
+
     return (
       <div>
         <InputHome
