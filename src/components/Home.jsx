@@ -24,6 +24,18 @@ class Home extends React.Component {
     this.setState(({ productsList: products }));
   }
 
+  showCards = (list) => (
+    list.map(({ title, thumbnail, price }) => (
+      <div key={ title } data-testid="product">
+        <Card
+          name={ title }
+          image={ thumbnail }
+          price={ price }
+        />
+      </div>
+    ))
+  );
+
   // MLB1055 - Motorola
   // https://api.mercadolibre.com/sites/MLB/search?category=$CATEGORY_ID&q=$QUERY
 
@@ -31,6 +43,7 @@ class Home extends React.Component {
     const { state: { productsList, name },
       handleInput,
       handleClick,
+      showCards,
     } = this;
     return (
       <div>
@@ -45,16 +58,10 @@ class Home extends React.Component {
         <h2 data-testid="home-initial-message">
           Digite algum termo de pesquisa ou escolha uma categoria.
         </h2>
-        { productsList.length === 0 ? (<h1>Nenhum produto foi encontrado</h1>) : (
-          productsList.map(({ title, thumbnail, price }) => (
-            <div key={ title } data-testid="product">
-              <Card
-                name={ title }
-                image={ thumbnail }
-                price={ price }
-              />
-            </div>
-          ))
+        { productsList.length === 0 ? (
+          <h1>Nenhum produto foi encontrado</h1>
+        ) : (
+          showCards(productsList)
         )}
       </div>
     );
