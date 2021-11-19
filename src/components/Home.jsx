@@ -3,6 +3,7 @@ import * as api from '../services/api';
 import BtnHome from './BtnHome';
 import Card from './Card';
 import InputHome from './InputHome';
+import CartLink from './CartLink';
 
 class Home extends React.Component {
   constructor() {
@@ -53,6 +54,7 @@ class Home extends React.Component {
           name={ name }
           handleInput={ handleInput }
         />
+        <CartLink />
         <BtnHome
           name={ name }
           handleClick={ handleClick }
