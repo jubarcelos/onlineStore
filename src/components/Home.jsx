@@ -38,9 +38,6 @@ class Home extends React.Component {
     ))
   );
 
-  // MLB1055 - Motorola
-  // https://api.mercadolibre.com/sites/MLB/search?category=$CATEGORY_ID&q=$QUERY
-
   render() {
     const { state: { productsList, name },
       handleInput,
