@@ -24,19 +24,26 @@ class Aside extends Component {
       });
   }
 
+  getCategoryFiltered = () => {
+
+  }
+
   render() {
     const { categoriesLink } = this.state;
     return (
       <div>
         {
           categoriesLink.map((category) => (
-            <label htmlFor={ category } key={ category } data-testid="category">
+            <button
+              key={ category }
+              data-testid="category"
+              name="button"
+              type="button"
+              id={ category }
+              onClick={ getCategoryFiltered }
+            >
               { category }
-              <input
-                type="radio"
-                id={ category }
-              />
-            </label>
+            </button>
           ))
         }
       </div>
