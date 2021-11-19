@@ -55,11 +55,13 @@ class Home extends React.Component {
           handleInput={ handleInput }
         />
         <CartLink />
+
         <BtnHome
           name={ name }
           handleClick={ handleClick }
         />
         <h2 data-testid="home-initial-message">
+
           Digite algum termo de pesquisa ou escolha uma categoria.
         </h2>
         { productsList.length === 0 ? (
