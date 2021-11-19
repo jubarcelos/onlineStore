@@ -14,7 +14,7 @@ class Home extends React.Component {
     };
   }
 
-  handleInput= ({ target }) => {
+  handleInput = ({ target }) => {
     const { name, value } = target;
     this.setState({
       [name]: value,
