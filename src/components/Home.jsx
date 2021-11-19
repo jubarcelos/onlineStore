@@ -3,12 +3,14 @@ import * as api from '../services/api';
 import BtnHome from './BtnHome';
 import Card from './Card';
 import InputHome from './InputHome';
+import CartLink from './CartLink';
 
 class Home extends React.Component {
   constructor() {
     super();
     this.state = {
       productsList: [],
+      name: '',
     };
   }
 
@@ -19,8 +21,8 @@ class Home extends React.Component {
     });
   }
 
-  handleClick = async (categoryId, query) => {
-    const products = await api.getProductsFromCategoryAndQuery(categoryId, query);
+  handleClick = async (query) => {
+    const products = await api.getByQuery(query);
     this.setState(({ productsList: products }));
   }
 
@@ -45,12 +47,15 @@ class Home extends React.Component {
       handleClick,
       showCards,
     } = this;
+
     return (
       <div>
         <InputHome
           name={ name }
           handleInput={ handleInput }
         />
+        <CartLink />
+
         <BtnHome
           name={ name }
           handleClick={ handleClick }
