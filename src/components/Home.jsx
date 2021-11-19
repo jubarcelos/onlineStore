@@ -1,6 +1,8 @@
 import React from 'react';
 import * as api from '../services/api';
+import BtnHome from './BtnHome';
 import Card from './Card';
+import InputHome from './InputHome';
 
 class Home extends React.Component {
   constructor() {
@@ -32,41 +34,28 @@ class Home extends React.Component {
     } = this;
     return (
       <div>
-        <input
-          data-testid="query-input"
-          type="text"
-          value={ name }
-          name="name"
-          onChange={ handleInput }
+        <InputHome
+          name={ name }
+          handleInput={ handleInput }
         />
-        <button
-          data-testid="query-button"
-          type="button"
-          onClick={ () => handleClick('$CATEGORY_ID', name) }
-        >
-          Search
-        </button>
-        <h2
-          data-testid="home-initial-message"
-        >
+        <BtnHome
+          name={ name }
+          handleClick={ handleClick }
+        />
+        <h2 data-testid="home-initial-message">
           Digite algum termo de pesquisa ou escolha uma categoria.
         </h2>
-        {
-          productsList.length === 0
-            ? (
-              <h1>Nenhum produto foi encontrado</h1>
-            ) : (
-              productsList.map(({ title, thumbnail, price }) => (
-                <div key={ title } data-testid="product">
-                  <Card
-                    name={ title }
-                    image={ thumbnail }
-                    price={ price }
-                  />
-                </div>
-              ))
-            )
-        }
+        { productsList.length === 0 ? (<h1>Nenhum produto foi encontrado</h1>) : (
+          productsList.map(({ title, thumbnail, price }) => (
+            <div key={ title } data-testid="product">
+              <Card
+                name={ title }
+                image={ thumbnail }
+                price={ price }
+              />
+            </div>
+          ))
+        )}
       </div>
     );
   }
