@@ -14,10 +14,10 @@ class App extends Component {
           <Switch>
             <Route exact path="/" component={ Home } />
             <Route path="/cart" component={ Cart } />
-            {/* <Route path="/product/:id" component={ Product } /> */}
+            <Route path="/product/:id" component={ Product } />
           </Switch>
+          <Aside />
         </BrowserRouter>
-        <Aside />
       </div>
     );
   }
