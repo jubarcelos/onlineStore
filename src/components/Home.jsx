@@ -27,9 +27,10 @@ class Home extends React.Component {
   }
 
   showCards = (list) => (
-    list.map(({ title, thumbnail, price }) => (
+    list.map(({ title, thumbnail, price, id }) => (
       <div key={ title } data-testid="product">
         <Card
+          id={ id }
           name={ title }
           image={ thumbnail }
           price={ price }
