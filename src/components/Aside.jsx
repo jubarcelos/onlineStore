@@ -36,6 +36,7 @@ class Aside extends Component {
     return catalogueCategory.map((category) => (
       <div key={ category.title } data-testid="product">
         <Card
+          id={ category.id }
           name={ category.title }
           image={ category.thumbnail }
           price={ category.price }
