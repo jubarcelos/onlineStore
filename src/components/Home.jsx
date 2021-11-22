@@ -12,6 +12,8 @@ class Home extends React.Component {
     this.state = {
       productsList: [],
       name: '',
+      productOnCart: [],
+      search: false,
     };
   }
 
@@ -24,7 +26,10 @@ class Home extends React.Component {
 
   handleClick = async (query) => {
     const products = await api.getByQuery(query);
-    this.setState(({ productsList: products }));
+    this.setState(({
+      productsList: products,
+      search: true,
+    }));
   }
 
   showCards = (list) => (
@@ -41,7 +46,7 @@ class Home extends React.Component {
   );
 
   render() {
-    const { state: { productsList, name },
+    const { state: { productsList, name, productOnCart, search },
       handleInput,
       handleClick,
       showCards,
@@ -53,17 +58,19 @@ class Home extends React.Component {
           name={ name }
           handleInput={ handleInput }
         />
-        <CartLink />
-        <Aside />
         <BtnHome
           name={ name }
           handleClick={ handleClick }
         />
+        <CartLink
+          productOnCart={ productOnCart }
+        />
+        <Aside />
         <h2 data-testid="home-initial-message">
           Digite algum termo de pesquisa ou escolha uma categoria.
         </h2>
         { productsList.length === 0 ? (
-          <h1>Nenhum produto foi encontrado</h1>
+          search && <h1>Nenhum produto foi encontrado</h1>
         ) : (
           showCards(productsList)
         )}

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 // import CartLink from './CartLink';
 import * as api from '../services/api';
-import Cart from './Cart';
+import CartLink from './CartLink';
 
 class Product extends React.Component {
   constructor() {
@@ -13,6 +13,7 @@ class Product extends React.Component {
       productImg: '',
       productAttributes: [],
       productInfo: {},
+      productOnCart: [],
     };
   }
 
@@ -24,7 +25,15 @@ class Product extends React.Component {
   getProduct = () => {
     const { productName, productPrice, productImg } = this.state;
     this.setState({
-      productInfo: { productName, productPrice, productImg },
+      productInfo: {
+        productName,
+        productPrice,
+        productImg,
+      } }, () => {
+      const { productInfo } = this.state;
+      this.setState((prevState) => (
+        { productOnCart: [...prevState.productOnCart, productInfo] }
+      ));
     });
   }
 
@@ -40,8 +49,13 @@ class Product extends React.Component {
   }
 
   render() {
-    const { productName, productPrice, productImg, productAttributes, productInfo } = this.state;
-    console.log(productInfo);
+    const {
+      productName,
+      productPrice,
+      productImg,
+      productAttributes,
+      productOnCart,
+    } = this.state;
     return (
       <div>
         <h2 data-testid="product-detail-name">
@@ -60,7 +74,6 @@ class Product extends React.Component {
                 { attribute.value_name }
               </li>
             )) }
-
           </ul>
         </div>
         <button
@@ -71,15 +84,8 @@ class Product extends React.Component {
         >
           Adicionar ao carrinho
         </button>
-        {/* <Link
-          to={ {
-            pathName: '/cart',
-            state: productInfo,
-          } }
-        />
-        <CartLink /> */}
-        <Cart
-          productInfo={ productInfo }
+        <CartLink
+          productOnCart={ productOnCart }
         />
       </div>
     );
