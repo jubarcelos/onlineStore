@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import CartLink from './CartLink';
+// import CartLink from './CartLink';
 import * as api from '../services/api';
+import Cart from './Cart';
 
 class Product extends React.Component {
   constructor() {
@@ -11,18 +12,24 @@ class Product extends React.Component {
       productPrice: '',
       productImg: '',
       productAttributes: [],
+      productInfo: {},
     };
   }
 
   componentDidMount() {
     const { match: { params: { id } } } = this.props;
-    console.log(id);
     this.getProductsFunction(id);
+  }
+
+  getProduct = () => {
+    const { productName, productPrice, productImg } = this.state;
+    this.setState({
+      productInfo: { productName, productPrice, productImg },
+    });
   }
 
   async getProductsFunction(id) {
     const response = await api.getProductById(id);
-    console.log(response);
     const { title, price, thumbnail, attributes } = response;
     this.setState({
       productName: title,
@@ -33,29 +40,47 @@ class Product extends React.Component {
   }
 
   render() {
-    const { productName, productPrice, productImg, productAttributes } = this.state;
+    const { productName, productPrice, productImg, productAttributes, productInfo } = this.state;
+    console.log(productInfo);
     return (
       <div>
-        <CartLink />
         <h2 data-testid="product-detail-name">
-          {productName}
+          { productName }
           -
-          {productPrice}
+          { productPrice }
         </h2>
         <img src={ `${productImg}` } alt="productImage" />
         <div>
           <p>Especificações Técnicas</p>
           <ul>
-            {productAttributes.map((attribute) => (
+            { productAttributes.map((attribute) => (
               <li key={ attribute.id }>
-                {attribute.name}
+                { attribute.name }
                 :
-                {attribute.value_name}
+                { attribute.value_name }
               </li>
-            ))}
+            )) }
 
           </ul>
         </div>
+        <button
+          type="button"
+          name={ productName }
+          data-testid="product-detail-add-to-cart"
+          onClick={ this.getProduct }
+        >
+          Adicionar ao carrinho
+        </button>
+        {/* <Link
+          to={ {
+            pathName: '/cart',
+            state: productInfo,
+          } }
+        />
+        <CartLink /> */}
+        <Cart
+          productInfo={ productInfo }
+        />
       </div>
     );
   }

@@ -4,6 +4,7 @@ import BtnHome from './BtnHome';
 import Card from './Card';
 import InputHome from './InputHome';
 import CartLink from './CartLink';
+import Aside from './Aside';
 
 class Home extends React.Component {
   constructor() {
@@ -53,13 +54,12 @@ class Home extends React.Component {
           handleInput={ handleInput }
         />
         <CartLink />
-
+        <Aside />
         <BtnHome
           name={ name }
           handleClick={ handleClick }
         />
         <h2 data-testid="home-initial-message">
-
           Digite algum termo de pesquisa ou escolha uma categoria.
         </h2>
         { productsList.length === 0 ? (

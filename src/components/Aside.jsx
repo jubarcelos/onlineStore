@@ -34,7 +34,7 @@ class Aside extends Component {
   showCataloguesCard = () => {
     const { catalogueCategory } = this.state;
     return catalogueCategory.map((category) => (
-      <div key={ category.title } data-testid="product">
+      <div key={ category.id } data-testid="product">
         <Card
           id={ category.id }
           name={ category.title }
