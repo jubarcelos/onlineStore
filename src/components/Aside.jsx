@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 // import { getCategories } from '../services/api';
 import * as api from '../services/api';
+import Card from './Card';
 
 class Aside extends Component {
   constructor() {
@@ -8,6 +9,7 @@ class Aside extends Component {
 
     this.state = {
       categoriesLink: [],
+      catalogueCategory: [],
     };
   }
 
@@ -19,26 +21,50 @@ class Aside extends Component {
     api.getCategories()
       .then((requestJson) => {
         this.setState({
-          categoriesLink: requestJson.map(({ name }) => name),
+          categoriesLink: requestJson.map((obj) => obj),
         });
       });
   }
 
+  getCategoryFiltered = async ({ target: { name } }) => {
+    const catalogue = await api.getByCategoryId(name);
+    this.setState({ catalogueCategory: catalogue });
+  }
+
+  showCataloguesCard = () => {
+    const { catalogueCategory } = this.state;
+    return catalogueCategory.map((category) => (
+      <div key={ category.title } data-testid="product">
+        <Card
+          id={ category.id }
+          name={ category.title }
+          image={ category.thumbnail }
+          price={ category.price }
+        />
+      </div>
+    ));
+  }
+
   render() {
     const { categoriesLink } = this.state;
+    // console.log(catalogueCategory);
     return (
       <div>
         {
           categoriesLink.map((category) => (
-            <label htmlFor={ category } key={ category } data-testid="category">
-              { category }
-              <input
-                type="radio"
-                id={ category }
-              />
-            </label>
+            <button
+              key={ category.name }
+              data-testid="category"
+              name={ category.id }
+              type="button"
+              id={ category.name }
+              onClick={ this.getCategoryFiltered }
+            >
+              { category.name }
+            </button>
           ))
         }
+        { this.showCataloguesCard() }
       </div>
     );
   }

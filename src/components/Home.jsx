@@ -3,31 +3,34 @@ import * as api from '../services/api';
 import BtnHome from './BtnHome';
 import Card from './Card';
 import InputHome from './InputHome';
+import CartLink from './CartLink';
 
 class Home extends React.Component {
   constructor() {
     super();
     this.state = {
       productsList: [],
+      name: '',
     };
   }
 
-  handleInput= ({ target }) => {
+  handleInput = ({ target }) => {
     const { name, value } = target;
     this.setState({
       [name]: value,
     });
   }
 
-  handleClick = async (categoryId, query) => {
-    const products = await api.getProductsFromCategoryAndQuery(categoryId, query);
+  handleClick = async (query) => {
+    const products = await api.getByQuery(query);
     this.setState(({ productsList: products }));
   }
 
   showCards = (list) => (
-    list.map(({ title, thumbnail, price }) => (
+    list.map(({ title, thumbnail, price, id }) => (
       <div key={ title } data-testid="product">
         <Card
+          id={ id }
           name={ title }
           image={ thumbnail }
           price={ price }
@@ -36,21 +39,21 @@ class Home extends React.Component {
     ))
   );
 
-  // MLB1055 - Motorola
-  // https://api.mercadolibre.com/sites/MLB/search?category=$CATEGORY_ID&q=$QUERY
-
   render() {
     const { state: { productsList, name },
       handleInput,
       handleClick,
       showCards,
     } = this;
+
     return (
       <div>
         <InputHome
           name={ name }
           handleInput={ handleInput }
         />
+        <CartLink />
+
         <BtnHome
           name={ name }
           handleClick={ handleClick }

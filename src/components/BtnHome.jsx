@@ -8,7 +8,7 @@ class BtnHome extends Component {
       <button
         data-testid="query-button"
         type="button"
-        onClick={ () => handleClick('$CATEGORY_ID', name) }
+        onClick={ () => handleClick(name) }
       >
         Search
       </button>
