@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import * as api from '../services/api';
 import CartLink from '../components/CartLink';
 
-export class ProductDetails extends Component {
+class ProductDetails extends Component {
   constructor() {
     super();
     this.state = {
