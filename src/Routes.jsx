@@ -14,7 +14,6 @@ class Routes extends Component {
 
   getProduct = (productSelected) => {
     const { productImg, productPrice, productName } = productSelected;
-    console.log(productSelected);
     this.setState(({ productsOnCart }) => (
       { productsOnCart: [...productsOnCart, { productImg, productPrice, productName }],
       }));
