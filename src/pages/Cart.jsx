@@ -2,20 +2,29 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 class Cart extends Component {
+  constructor() {
+    super();
+    this.state = {};
+  }
+  // groupProducts = (products) => {
+  //   const productsGroupedByName = [];
+  //   for (let index = 0; index < products.length; index += 1) {
+  //     const currentProduct = products[index];
+  //     const existingProduct = productsGroupedByName
+  //       .find((newProduct) => newProduct.productName === currentProduct.productName);
+  //     if (existingProduct) {
+  //       existingProduct.counter += 1;
+  //     } else {
+  //       currentProduct.counter = 1;
+  //       productsGroupedByName.push(currentProduct);
+  //     }
+  //   }
+  //   return productsGroupedByName;
+  // }
   groupProducts = (products) => {
-    const productsGroupedByName = [];
-    for (let index = 0; index < products.length; index += 1) {
-      const currentProduct = products[index];
-      const existingProduct = productsGroupedByName
-        .find((newProduct) => newProduct.productName === currentProduct.productName);
-      if (existingProduct) {
-        existingProduct.counter += 1;
-      } else {
-        currentProduct.counter = 1;
-        productsGroupedByName.push(currentProduct);
-      }
-    }
-    return productsGroupedByName;
+    products.map((product) => {
+
+    });
   }
 
   productInfoCard = (productsOnCart) => (
