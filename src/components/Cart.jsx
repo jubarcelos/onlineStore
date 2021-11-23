@@ -2,15 +2,26 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 class Cart extends React.Component {
+  groupProducts = (products) => {
+    const productsGroupedByName = [];
+    for (let index = 0; index < products.length; index += 1) {
+      const currentProduct = products[index];
+      const existingProduct = productsGroupedByName
+        .find((newProduct) => newProduct.productName === currentProduct.productName);
+      if (existingProduct) {
+        existingProduct.counter += 1;
+      } else {
+        currentProduct.counter = 1;
+        productsGroupedByName.push(currentProduct);
+      }
+    }
+    return productsGroupedByName;
+  }
+
   productInfoCard = () => {
     const { location: { state: { productInfo } } } = this.props;
-    let counter = 0;
-    productInfo.forEach((data) => {
-      counter = productInfo
-        .filter((value) => value.productName === data.productName).length;
-    });
     return (
-      productInfo.map((product) => (
+      this.groupProducts(productInfo).map((product) => (
         <div key={ product.productName } data-testid="shopping-cart-product-name">
           <p>
             { product.productName }
@@ -20,7 +31,7 @@ class Cart extends React.Component {
             { product.productPrice }
           </p>
           <p data-testid="shopping-cart-product-quantity">
-            { counter }
+            { product.counter }
           </p>
         </div>
       ))
