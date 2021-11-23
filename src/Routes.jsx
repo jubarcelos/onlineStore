@@ -12,6 +12,12 @@ class Routes extends Component {
     };
   }
 
+  deleteProductOnCart = (newProductOnCart) => {
+    this.setState({
+      productsOnCart: newProductOnCart,
+    });
+  }
+
   getProduct = (productSelected) => {
     const { productImg, productPrice, productName } = productSelected;
     this.setState(({ productsOnCart }) => (
@@ -23,6 +29,7 @@ class Routes extends Component {
     const {
       state: { productsOnCart },
       getProduct,
+      deleteProductOnCart,
     } = this;
 
     return (
@@ -33,7 +40,14 @@ class Routes extends Component {
           render={ () => (
             <Home getProduct={ getProduct } productsOnCart={ productsOnCart } />) }
         />
-        <Route path="/cart" render={ () => <Cart productsOnCart={ productsOnCart } /> } />
+        <Route
+          path="/cart"
+          render={ () => (
+            <Cart
+              productsOnCart={ productsOnCart }
+              deleteProductOnCart={ deleteProductOnCart }
+            />) }
+        />
         <Route
           path="/productDetails/:id"
           render={ (props) => (
