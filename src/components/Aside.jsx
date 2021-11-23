@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
-// import { getCategories } from '../services/api';
+import PropTypes from 'prop-types';
 import * as api from '../services/api';
-import Card from './Card';
 
 class Aside extends Component {
   constructor() {
     super();
-
     this.state = {
       categoriesLink: [],
       catalogueCategory: [],
@@ -21,53 +19,52 @@ class Aside extends Component {
     api.getCategories()
       .then((requestJson) => {
         this.setState({
-          categoriesLink: requestJson.map((obj) => obj),
+          categoriesLink: requestJson,
         });
       });
   }
 
-  getCategoryFiltered = async ({ target: { name } }) => {
-    const catalogue = await api.getByCategoryId(name);
+  getCategoryFiltered = async ({ target: { id } }) => {
+    const catalogue = await api.getByCategoryId(id);
     this.setState({ catalogueCategory: catalogue });
   }
 
-  showCataloguesCard = () => {
-    const { catalogueCategory } = this.state;
-    return catalogueCategory.map((category) => (
-      <div key={ category.id } data-testid="product">
-        <Card
-          id={ category.id }
-          name={ category.title }
-          image={ category.thumbnail }
-          price={ category.price }
-        />
-      </div>
-    ));
-  }
+  getButtons = (categoriesLink, getCategoryFiltered) => (
+    categoriesLink.map(({ name, id }) => (
+      <button
+        key={ id }
+        data-testid="category"
+        name={ name }
+        type="button"
+        id={ id }
+        onClick={ getCategoryFiltered }
+      >
+        { name }
+      </button>
+    )));
 
   render() {
-    const { categoriesLink } = this.state;
-    // console.log(catalogueCategory);
+    const {
+      props: { showCards },
+      state: { categoriesLink, catalogueCategory },
+      getCategoryFiltered,
+      getButtons,
+    } = this;
+
     return (
       <div>
+        { getButtons(categoriesLink, getCategoryFiltered) }
         {
-          categoriesLink.map((category) => (
-            <button
-              key={ category.name }
-              data-testid="category"
-              name={ category.id }
-              type="button"
-              id={ category.name }
-              onClick={ this.getCategoryFiltered }
-            >
-              { category.name }
-            </button>
-          ))
+          catalogueCategory.length !== 0 && (
+            <section>{ showCards(catalogueCategory) }</section>)
         }
-        { this.showCataloguesCard() }
       </div>
     );
   }
 }
+
+Aside.propTypes = {
+  showCards: PropTypes.func.isRequired,
+};
 
 export default Aside;

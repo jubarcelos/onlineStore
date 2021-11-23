@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-// import CartLink from './CartLink';
 import * as api from '../services/api';
-import CartLink from './CartLink';
+import CartLink from '../components/CartLink';
 
-class Product extends React.Component {
+class ProductDetails extends Component {
   constructor() {
     super();
     this.state = {
@@ -12,8 +11,6 @@ class Product extends React.Component {
       productPrice: '',
       productImg: '',
       productAttributes: [],
-      productInfo: {},
-      productOnCart: [],
     };
   }
 
@@ -22,22 +19,7 @@ class Product extends React.Component {
     this.getProductsFunction(id);
   }
 
-  getProduct = () => {
-    const { productName, productPrice, productImg } = this.state;
-    this.setState({
-      productInfo: {
-        productName,
-        productPrice,
-        productImg,
-      } }, () => {
-      const { productInfo } = this.state;
-      this.setState((prevState) => (
-        { productOnCart: [...prevState.productOnCart, productInfo] }
-      ));
-    });
-  }
-
-  async getProductsFunction(id) {
+  getProductsFunction = async (id) => {
     const response = await api.getProductById(id);
     const { title, price, thumbnail, attributes } = response;
     this.setState({
@@ -50,18 +32,20 @@ class Product extends React.Component {
 
   render() {
     const {
-      productName,
-      productPrice,
-      productImg,
-      productAttributes,
-      productOnCart,
-    } = this.state;
+      state: { productName,
+        productPrice,
+        productImg,
+        productAttributes,
+      },
+      props: { getProduct, productsOnCart },
+    } = this;
+    // console.log(getProduct);
     return (
       <div>
         <h2 data-testid="product-detail-name">
           { productName }
           -
-          { productPrice }
+          { `R$${productPrice}` }
         </h2>
         <img src={ `${productImg}` } alt="productImage" />
         <div>
@@ -80,24 +64,26 @@ class Product extends React.Component {
           type="button"
           name={ productName }
           data-testid="product-detail-add-to-cart"
-          onClick={ this.getProduct }
+          onClick={ () => getProduct(this.state) }
         >
-          Adicionar ao carrinho
+          Add to cart
         </button>
         <CartLink
-          productOnCart={ productOnCart }
+          productsOnCart={ productsOnCart }
         />
       </div>
     );
   }
 }
 
-Product.propTypes = {
+ProductDetails.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
       id: PropTypes.string,
     }),
   }).isRequired,
+  productsOnCart: PropTypes.arrayOf(PropTypes.object).isRequired,
+  getProduct: PropTypes.func.isRequired,
 };
 
-export default Product;
+export default ProductDetails;
