@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import * as api from '../services/api';
 import InputHome from '../components/InputHome';
 import Card from '../components/Card';
 import Aside from '../components/Aside';
+import CartLink from '../components/CartLink';
 
-export class Home extends Component {
+class Home extends Component {
   constructor() {
     super();
     this.state = {
@@ -50,6 +50,7 @@ export class Home extends Component {
 
   render() {
     const {
+      props: { productsOnCart },
       state: { searchInput, productsList, resultSearch },
       handleClick,
       handleInput,
@@ -66,15 +67,11 @@ export class Home extends Component {
           handleInput={ handleInput }
           handleClick={ handleClick }
         />
-        <Link to="/cart" data-testid="shopping-cart-button">
-          <img
-            width="25px"
-            src="https://cdn-icons-png.flaticon.com/512/126/126510.png"
-            alt="logo"
-          />
-        </Link>
+        <CartLink
+          productsOnCart={ productsOnCart }
+        />
         <Aside showCards={ showCards } />
-        { productsList.length ? (
+        { productsList.length === 0 ? (
           resultSearch && <h1>Nenhum produto foi encontrado</h1>
         ) : (
           showCards(productsList)
@@ -86,6 +83,7 @@ export class Home extends Component {
 
 Home.propTypes = {
   getProduct: PropTypes.func.isRequired,
+  productsOnCart: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default Home;

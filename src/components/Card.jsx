@@ -7,12 +7,20 @@ class Card extends Component {
     const { name, image, price, id, getProduct } = this.props;
     return (
       <div>
-        <Link to={ `/product/${id}` } data-testid="product-detail-link">
+        <Link
+          to={ `/productDetails/${id}` }
+          data-testid="product-detail-link"
+        >
           <h3>{ name }</h3>
           <img src={ image } alt={ name } />
           <p>{ price }</p>
         </Link>
-        <button type="button" onClick={ getProduct }>
+        <button
+          data-testid="product-add-to-cart"
+          type="button"
+          onClick={ () => (
+            getProduct({ productImg: image, productPrice: price, productName: name })) }
+        >
           Buy
         </button>
       </div>

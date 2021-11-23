@@ -12,8 +12,12 @@ class Routes extends Component {
     };
   }
 
-  getProduct = () => {
-    console.log('yo');
+  getProduct = (productSelected) => {
+    const { productImg, productPrice, productName } = productSelected;
+    console.log(productSelected);
+    this.setState(({ productsOnCart }) => (
+      { productsOnCart: [...productsOnCart, { productImg, productPrice, productName }],
+      }));
   }
 
   render() {
@@ -24,11 +28,21 @@ class Routes extends Component {
 
     return (
       <Switch>
-        <Route exact path="/" render={ () => <Home getProduct={ getProduct } /> } />
+        <Route
+          exact
+          path="/"
+          render={ () => (
+            <Home getProduct={ getProduct } productsOnCart={ productsOnCart } />) }
+        />
         <Route path="/cart" render={ () => <Cart productsOnCart={ productsOnCart } /> } />
         <Route
-          path="/product/:id"
-          render={ (props) => <ProductDetails { ...props } getProduct={ getProduct } /> }
+          path="/productDetails/:id"
+          render={ (props) => (
+            <ProductDetails
+              { ...props }
+              productsOnCart={ productsOnCart }
+              getProduct={ getProduct }
+            />) }
         />
       </Switch>
     );
