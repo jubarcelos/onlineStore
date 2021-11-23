@@ -1,0 +1,91 @@
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import * as api from '../services/api';
+import InputHome from '../components/InputHome';
+import Card from '../components/Card';
+import Aside from '../components/Aside';
+
+export class Home extends Component {
+  constructor() {
+    super();
+    this.state = {
+      searchInput: '',
+      productsList: [],
+      resultSearch: false,
+    };
+  }
+
+  handleInput = ({ target }) => {
+    const { name, value } = target;
+    this.setState({
+      [name]: value,
+    });
+  }
+
+  handleClick = async (query) => {
+    const products = await api.getByQuery(query);
+    this.setState({
+      productsList: products,
+      resultSearch: true,
+    });
+  }
+
+  showCards = (productsList) => {
+    const { props: { getProduct } } = this;
+    return (
+      productsList.map(({ title, thumbnail, price, id }) => (
+        <div key={ title } data-testid="product">
+          <Card
+            id={ id }
+            name={ title }
+            image={ thumbnail }
+            price={ price }
+            getProduct={ getProduct }
+          />
+        </div>
+      ))
+    );
+  }
+
+  render() {
+    const {
+      state: { searchInput, productsList, resultSearch },
+      handleClick,
+      handleInput,
+      showCards,
+    } = this;
+
+    return (
+      <div>
+        <h2 data-testid="home-initial-message">
+          Digite algum termo de pesquisa ou escolha uma categoria.
+        </h2>
+        <InputHome
+          searchInput={ searchInput }
+          handleInput={ handleInput }
+          handleClick={ handleClick }
+        />
+        <Link to="/cart" data-testid="shopping-cart-button">
+          <img
+            width="25px"
+            src="https://cdn-icons-png.flaticon.com/512/126/126510.png"
+            alt="logo"
+          />
+        </Link>
+        <Aside showCards={ showCards } />
+        { productsList.length ? (
+          resultSearch && <h1>Nenhum produto foi encontrado</h1>
+        ) : (
+          showCards(productsList)
+        )}
+      </div>
+    );
+  }
+}
+
+Home.propTypes = {
+  getProduct: PropTypes.func.isRequired,
+};
+
+export default Home;
