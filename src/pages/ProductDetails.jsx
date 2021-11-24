@@ -73,6 +73,7 @@ class ProductDetails extends Component {
           productsOnCart={ productsOnCart }
         />
         <Assessment
+          allComents={ allComents }
         />
       </div>
     );

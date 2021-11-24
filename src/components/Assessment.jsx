@@ -9,6 +9,7 @@ class Assessment extends Component {
   }
 
   addAssessment = () => {
+    // precisa de uma condicional para checar que os campos estão preenchidos.
     this.setState(({ allComents }) => (
       { allComents: [...allComents], comment }
     ));
@@ -32,14 +33,14 @@ class Assessment extends Component {
         </label>
         <button
           type="submit"
-          onClick={ addAssessment }
+          onClick={ this.addAssessment }
         >
           Assessment
         </button>
       </form>
     );
     return (
-      <p>VAI</p>
+      { comment }
     );
   }
 }
