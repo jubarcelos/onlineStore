@@ -23,13 +23,20 @@ class Cart extends Component {
     });
   }
 
-  // increaseQuantity = () => {
+  increaseQuantity = (newProductOnCart) => {
+    const cartItem = newProductOnCart.find((item) => item.id === id);
+    cartItem.counter += 1;
+    this.setState({ newProductOnCart });
+  }
 
-  // }
-
-  // decreaseQuantity = () => {
-
-  // }
+  decreaseQuantity = (newProductOnCart) => {
+    const cartItem = newProductOnCart.find((item) => item.id === id);
+    cartItem.counter -= 1;
+    if (cartItem.counter === 0) {
+      deleteProduct(newProductOnCart);
+    }
+    this.setState({ newProductOnCart });
+  }
 
   groupProducts = (products) => {
     const productsGroupedByName = [];
