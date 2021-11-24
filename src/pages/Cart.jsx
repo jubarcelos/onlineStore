@@ -23,17 +23,22 @@ class Cart extends Component {
     });
   }
 
-  increaseQuantity = (newProductOnCart) => {
-    const cartItem = newProductOnCart.find((item) => item.id === id);
-    cartItem.counter += 1;
+  increaseQuantity = ({ target: { id } }) => {
+    const { newProductOnCart } = this.state;
+    const cartItem = newProductOnCart.find((item) => item.productId === id);
+    // const counterProduct = document.querySelector('#counter');
+    // counterProduct.innerHTML = cartItem.counter += 1;
+    // cartItem.counter = counterProduct;
+    // console.log(cartItem.counter);
     this.setState({ newProductOnCart });
   }
 
-  decreaseQuantity = (newProductOnCart) => {
-    const cartItem = newProductOnCart.find((item) => item.id === id);
+  decreaseQuantity = ({ target: { id } }) => {
+    const { newProductOnCart } = this.state;
+    const cartItem = newProductOnCart.find((item) => item.productId === id);
     cartItem.counter -= 1;
     if (cartItem.counter === 0) {
-      deleteProduct(newProductOnCart);
+      this.deleteProduct(newProductOnCart);
     }
     this.setState({ newProductOnCart });
   }
@@ -67,14 +72,12 @@ class Cart extends Component {
         <p>
           { product.productName }
         </p>
-
         <button onClick={ () => this.deleteProduct(product) } type="button">x</button>
-
         <img src={ product.productImg } alt={ product.productName } />
         <p>
           { product.productPrice }
         </p>
-        <p data-testid="shopping-cart-product-quantity">
+        <p id="counter" data-testid="shopping-cart-product-quantity">
           { product.counter }
         </p>
         <div>
@@ -82,6 +85,8 @@ class Cart extends Component {
             onClick={ this.increaseQuantity }
             data-testid="product-increase-quantity"
             type="button"
+            id={ product.productId }
+            
           >
             +
           </button>
@@ -89,6 +94,7 @@ class Cart extends Component {
             onClick={ this.decreaseQuantity }
             data-testid="product-decrease-quantity"
             type="button"
+            id={ product.productId }
           >
             -
           </button>

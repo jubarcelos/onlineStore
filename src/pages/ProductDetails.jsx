@@ -10,6 +10,7 @@ class ProductDetails extends Component {
       productName: '',
       productPrice: '',
       productImg: '',
+      productId: '',
       productAttributes: [],
     };
   }
@@ -27,6 +28,7 @@ class ProductDetails extends Component {
       productPrice: price,
       productImg: thumbnail,
       productAttributes: attributes,
+      productId: id,
     });
   }
 

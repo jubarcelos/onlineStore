@@ -19,7 +19,12 @@ class Card extends Component {
           data-testid="product-add-to-cart"
           type="button"
           onClick={ () => (
-            getProduct({ productImg: image, productPrice: price, productName: name })) }
+            getProduct({
+              productImg: image,
+              productPrice: price,
+              productName: name,
+              productId: id,
+            })) }
         >
           Buy
         </button>
