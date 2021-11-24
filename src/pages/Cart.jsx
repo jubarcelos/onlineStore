@@ -16,7 +16,8 @@ class Cart extends Component {
   deleteProduct = (product) => {
     const { props: { deleteProductOnCart } } = this;
     this.setState((prevState) => ({
-      newProductOnCart: prevState.newProductOnCart.filter((prod) => prod !== product),
+      newProductOnCart: prevState.newProductOnCart
+        .filter((prod) => prod.productId !== product.productId),
     }), () => {
       const { state: { newProductOnCart } } = this;
       deleteProductOnCart(newProductOnCart);
@@ -24,37 +25,25 @@ class Cart extends Component {
   }
 
   increaseQuantity = ({ target: { id } }) => {
+    console.log(id);
     const { newProductOnCart } = this.state;
-    const cartItem = newProductOnCart.find((item) => item.productId === id);
-    cartItem.counter = cartItem.counter += 1;
-    this.setState({ newProductOnCart });
-  }
-  // const counterProduct = document.querySelector('#counter');
-  // cartItem.counter = counterProduct;
-  // console.log(cartItem.counter);
-
-  decreaseQuantity = ({ target: { id } }) => {
-    const { newProductOnCart } = this.state;
-    const cartItem = newProductOnCart.map((obj) => {
-      if (obj.productId === id) {
-        obj.counter -= 1;
-        console.log('okay');
-      }
-      // if (obj.productId === id && obj.counter === 1) {
-      //   this.deleteProduct(newProductOnCart);
-      // }
-      return obj;
+    const cartItem = newProductOnCart.map((item) => {
+      if (item.productId === id) item.counter += 1;
+      return item;
     });
     console.log(cartItem);
-
-    // this.update(cartItem);
+    this.setState({ newProductOnCart: cartItem });
   }
 
-  // update = (cartItem) => {
-  //   this.setState({
-  //     newProductOnCart: cartItem,
-  //   });
-  // }
+  decreaseQuantity = (product) => {
+    const { props: { deleteProductOnCart } } = this;
+    this.setState((prevState) => ({
+      newProductOnCart: prevState.newProductOnCart.filter((prod) => prod !== product),
+    }), () => {
+      const { state: { newProductOnCart } } = this;
+      deleteProductOnCart(newProductOnCart);
+    });
+  }
 
   groupProducts = (products) => {
     const productsGroupedByName = [];
@@ -103,7 +92,7 @@ class Cart extends Component {
             +
           </button>
           <button
-            onClick={ this.decreaseQuantity }
+            onClick={ () => this.decreaseQuantity(product) }
             data-testid="product-decrease-quantity"
             type="button"
             id={ product.productId }
