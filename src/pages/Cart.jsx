@@ -25,13 +25,13 @@ class Cart extends Component {
   }
 
   increaseQuantity = ({ target: { id } }) => {
-    console.log(id);
     const { newProductOnCart } = this.state;
+    console.log(id);
     const cartItem = newProductOnCart.map((item) => {
-      if (item.productId === id) item.counter += 1;
+      if (item.productId === id) return { ...item, counter: item.counter + 1 };
       return item;
     });
-    console.log(cartItem);
+    console.log(newProductOnCart);
     this.setState({ newProductOnCart: cartItem });
   }
 
