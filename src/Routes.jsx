@@ -9,6 +9,7 @@ class Routes extends Component {
     super();
     this.state = {
       productsOnCart: [],
+      // allComents: [],
     };
   }
 
@@ -41,6 +42,8 @@ class Routes extends Component {
               { ...props }
               productsOnCart={ productsOnCart }
               getProduct={ getProduct }
+              // allComents={ allComents }
+
             />) }
         />
       </Switch>

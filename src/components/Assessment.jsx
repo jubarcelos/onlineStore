@@ -4,43 +4,103 @@ class Assessment extends Component {
   constructor() {
     super();
     this.state = {
-      allComents: [],
+      isSaveButtonDisabled: true,
+      stars: '5',
+      email: '',
+
     };
   }
+  // const { allComents } = this.props;
 
-  addAssessment = () => {
-    // precisa de uma condicional para checar que os campos estão preenchidos.
-    this.setState(({ allComents }) => (
-      { allComents: [...allComents], comment }
+  onInputChange = ({ target }) => {
+    const { name } = target;
+    const inputValue = target.value;
+    this.setState(({ [name]: inputValue }), () => (
+      this.setState({ isSaveButtonDisabled: this.formValidation() })
     ));
   }
 
+  // addAssessment = ({ target: { value } }) => {
+  // event.preventDefault();
+  // this.setState((preventDefault) => (
+  //   { allCards: [...preventDefault.allCards, this.newCard()] }
+  // ));
+  // this.clearForm();
+  // this.trunfoIsChecked();
+  // }
+
+  formValidation = () => {
+    const { email } = this.state;
+    const number = 5;
+    if (email.length > number && email.includes('@') && email.includes('.com')) {
+      return false;
+    }
+    return true;
+  }
+
   render() {
+    const {
+      state: { isSaveButtonDisabled, email, stars },
+    } = this;
+
     const comment = (
-      <form>
-        <label htmlFor="email">
-          Email:
-          <input name="email" type="email" placeholder="Digite seu email" />
+      <form method="get">
+        <div>
+          <label htmlFor="email">
+            Email:
+            <input
+              name="email"
+              value={ email }
+              onChange={ this.onInputChange }
+              type="email"
+              placeholder="Digite seu email"
+            />
+          </label>
+        </div>
+
+        <label htmlFor="stars">
+          Avaliação
+          <select
+            name="stars"
+            id="stars"
+            value={ stars }
+            onChange={ this.onInputChange }
+          >
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+
         </label>
-        <label htmlFor="textArea">
-          Avaliação:
-          <textarea
-            maxLength="500"
-            name="textArea"
-            data-testid="product-detail-evaluation"
-            placeholder="Conte-nos sua opinião sobre o produto"
-          />
-        </label>
+
+        <div>
+          <label htmlFor="textArea">
+            Descrição:
+            <textarea
+              maxLength="500"
+              name="textArea"
+              data-testid="product-detail-evaluation"
+              placeholder="Conte-nos sua opinião sobre o produto"
+            />
+          </label>
+        </div>
         <button
           type="submit"
-          onClick={ this.addAssessment }
+          disabled={ isSaveButtonDisabled }
+        // onClick={ this.addAssessment }
         >
           Assessment
         </button>
       </form>
     );
     return (
-      { comment }
+      <div>
+        <p>Avalição dos consumidores</p>
+        { comment }
+        {/* { allComents } */ }
+      </div>
     );
   }
 }

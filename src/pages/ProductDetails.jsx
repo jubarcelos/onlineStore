@@ -38,7 +38,7 @@ class ProductDetails extends Component {
         productImg,
         productAttributes,
       },
-      props: { getProduct, productsOnCart },
+      props: { getProduct, productsOnCart, allComents },
     } = this;
     // console.log(getProduct);
     return (
@@ -72,9 +72,8 @@ class ProductDetails extends Component {
         <CartLink
           productsOnCart={ productsOnCart }
         />
-        <Assessment
-          allComents={ allComents }
-        />
+        <Assessment />
+        {/* // allComents={ allComents } */}
       </div>
     );
   }
