@@ -81,6 +81,8 @@ class ProductDetails extends Component {
   }
 }
 
+export default ProductDetails;
+
 ProductDetails.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
@@ -89,6 +91,6 @@ ProductDetails.propTypes = {
   }).isRequired,
   productsOnCart: PropTypes.arrayOf(PropTypes.object).isRequired,
   getProduct: PropTypes.func.isRequired,
+  allComments: PropTypes.arrayOf(PropTypes.object).isRequired,
+  commentsProduct: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
-
-export default ProductDetails;

@@ -27,7 +27,7 @@ class Assessment extends Component {
     ), () => {
       const {
         state: { commentsOnProduct },
-        props: { allComments, commentsProduct },
+        // props: { allComments, commentsProduct },
       } = this;
       this.setState({
         email: '',
@@ -60,7 +60,7 @@ class Assessment extends Component {
 
   render() {
     const {
-      state: { isSaveButtonDisabled, email, stars, comment, commentsOnProduct },
+      state: { isSaveButtonDisabled, email, stars, comment },
     } = this;
 
     const commentForm = (
