@@ -7,10 +7,10 @@ class Assessment extends Component {
       isSaveButtonDisabled: true,
       stars: '5',
       email: '',
-
+      comment: '',
+      commentsOnProduct: [],
     };
   }
-  // const { allComents } = this.props;
 
   onInputChange = ({ target }) => {
     const { name } = target;
@@ -20,14 +20,17 @@ class Assessment extends Component {
     ));
   }
 
-  // addAssessment = ({ target: { value } }) => {
-  // event.preventDefault();
-  // this.setState((preventDefault) => (
-  //   { allCards: [...preventDefault.allCards, this.newCard()] }
-  // ));
-  // this.clearForm();
-  // this.trunfoIsChecked();
-  // }
+  addAssessment = (event) => {
+    event.preventDefault();
+    const {
+      state: { commentsOnProduct },
+      props: { allComments },
+    } = this;
+    // this.setState({ commentsOnProduct: allComments }, () => {
+    this.setState((prevState) => (
+      { commentsOnProduct: [...prevState.commentsOnProduct, this.newComment()] }
+    ));
+  };
 
   formValidation = () => {
     const { email } = this.state;
@@ -38,12 +41,22 @@ class Assessment extends Component {
     return true;
   }
 
+  newComment = () => {
+    const { stars, email, comment } = this.state;
+    const newComment = {
+      email,
+      stars,
+      comment,
+    };
+    console.log(newComment);
+  }
+
   render() {
     const {
-      state: { isSaveButtonDisabled, email, stars },
+      state: { isSaveButtonDisabled, email, stars, comment },
     } = this;
 
-    const comment = (
+    const commentForm = (
       <form method="get">
         <div>
           <label htmlFor="email">
@@ -80,16 +93,18 @@ class Assessment extends Component {
             Descrição:
             <textarea
               maxLength="500"
-              name="textArea"
+              name="comment"
               data-testid="product-detail-evaluation"
               placeholder="Conte-nos sua opinião sobre o produto"
+              value={ comment }
+              onChange={ this.onInputChange }
             />
           </label>
         </div>
         <button
           type="submit"
           disabled={ isSaveButtonDisabled }
-        // onClick={ this.addAssessment }
+          onClick={ this.addAssessment }
         >
           Assessment
         </button>
@@ -98,8 +113,8 @@ class Assessment extends Component {
     return (
       <div>
         <p>Avalição dos consumidores</p>
-        { comment }
-        {/* { allComents } */ }
+        { commentForm }
+        {/* { allComments } */ }
       </div>
     );
   }

@@ -9,7 +9,7 @@ class Routes extends Component {
     super();
     this.state = {
       productsOnCart: [],
-      // allComents: [],
+      allComments: [],
     };
   }
 
@@ -22,7 +22,7 @@ class Routes extends Component {
 
   render() {
     const {
-      state: { productsOnCart },
+      state: { productsOnCart, allComments },
       getProduct,
     } = this;
 
@@ -42,8 +42,7 @@ class Routes extends Component {
               { ...props }
               productsOnCart={ productsOnCart }
               getProduct={ getProduct }
-              // allComents={ allComents }
-
+              allComments={ allComments }
             />) }
         />
       </Switch>
