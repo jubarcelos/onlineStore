@@ -72,7 +72,8 @@ class ProductDetails extends Component {
         <CartLink
           productsOnCart={ productsOnCart }
         />
-        <Assessment />
+        <Assessment
+        />
       </div>
     );
   }

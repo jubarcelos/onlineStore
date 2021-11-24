@@ -1,8 +1,21 @@
 import React, { Component } from 'react';
 
 class Assessment extends Component {
+  constructor() {
+    super();
+    this.state = {
+      allComents: [],
+    };
+  }
+
+  addAssessment = () => {
+    this.setState(({ allComents }) => (
+      { allComents: [...allComents], comment }
+    ));
+  }
+
   render() {
-    return (
+    const comment = (
       <form>
         <label htmlFor="email">
           Email:
@@ -17,8 +30,16 @@ class Assessment extends Component {
             placeholder="Conte-nos sua opinião sobre o produto"
           />
         </label>
-        <button type="submit">Assessment</button>
+        <button
+          type="submit"
+          onClick={ addAssessment }
+        >
+          Assessment
+        </button>
       </form>
+    );
+    return (
+      <p>VAI</p>
     );
   }
 }
