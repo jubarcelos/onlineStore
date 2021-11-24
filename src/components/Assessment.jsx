@@ -22,14 +22,21 @@ class Assessment extends Component {
 
   addAssessment = (event) => {
     event.preventDefault();
-    const {
-      state: { commentsOnProduct },
-      props: { allComments },
-    } = this;
-    // this.setState({ commentsOnProduct: allComments }, () => {
     this.setState((prevState) => (
       { commentsOnProduct: [...prevState.commentsOnProduct, this.newComment()] }
-    ));
+    ), () => {
+      const {
+        state: { commentsOnProduct },
+        props: { allComments, commentsProduct },
+      } = this;
+      this.setState({
+        email: '',
+        stars: '5',
+        comment: '',
+        isSaveButtonDisabled: true,
+      });
+      commentsProduct(commentsOnProduct);
+    });
   };
 
   formValidation = () => {
@@ -48,12 +55,12 @@ class Assessment extends Component {
       stars,
       comment,
     };
-    console.log(newComment);
+    return newComment;
   }
 
   render() {
     const {
-      state: { isSaveButtonDisabled, email, stars, comment },
+      state: { isSaveButtonDisabled, email, stars, comment, commentsOnProduct },
     } = this;
 
     const commentForm = (

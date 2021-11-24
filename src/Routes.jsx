@@ -13,6 +13,12 @@ class Routes extends Component {
     };
   }
 
+  commentsProduct = (commentsOnProduct) => {
+    this.setState({
+      allComments: commentsOnProduct,
+    });
+  }
+
   getProduct = (productSelected) => {
     const { productImg, productPrice, productName } = productSelected;
     this.setState(({ productsOnCart }) => (
@@ -43,6 +49,7 @@ class Routes extends Component {
               productsOnCart={ productsOnCart }
               getProduct={ getProduct }
               allComments={ allComments }
+              commentsProduct={ this.commentsProduct }
             />) }
         />
       </Switch>
