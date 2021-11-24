@@ -26,22 +26,35 @@ class Cart extends Component {
   increaseQuantity = ({ target: { id } }) => {
     const { newProductOnCart } = this.state;
     const cartItem = newProductOnCart.find((item) => item.productId === id);
-    // const counterProduct = document.querySelector('#counter');
-    // counterProduct.innerHTML = cartItem.counter += 1;
-    // cartItem.counter = counterProduct;
-    // console.log(cartItem.counter);
+    cartItem.counter = cartItem.counter += 1;
     this.setState({ newProductOnCart });
   }
+  // const counterProduct = document.querySelector('#counter');
+  // cartItem.counter = counterProduct;
+  // console.log(cartItem.counter);
 
   decreaseQuantity = ({ target: { id } }) => {
     const { newProductOnCart } = this.state;
-    const cartItem = newProductOnCart.find((item) => item.productId === id);
-    cartItem.counter -= 1;
-    if (cartItem.counter === 0) {
-      this.deleteProduct(newProductOnCart);
-    }
-    this.setState({ newProductOnCart });
+    const cartItem = newProductOnCart.map((obj) => {
+      if (obj.productId === id) {
+        obj.counter -= 1;
+        console.log('okay');
+      }
+      // if (obj.productId === id && obj.counter === 1) {
+      //   this.deleteProduct(newProductOnCart);
+      // }
+      return obj;
+    });
+    console.log(cartItem);
+
+    // this.update(cartItem);
   }
+
+  // update = (cartItem) => {
+  //   this.setState({
+  //     newProductOnCart: cartItem,
+  //   });
+  // }
 
   groupProducts = (products) => {
     const productsGroupedByName = [];
@@ -86,7 +99,6 @@ class Cart extends Component {
             data-testid="product-increase-quantity"
             type="button"
             id={ product.productId }
-            
           >
             +
           </button>
@@ -109,6 +121,8 @@ class Cart extends Component {
       state: { newProductOnCart },
       productInfoCard,
     } = this;
+    // console.log(newProductOnCart);
+
     const notHaveProduct = (
       <p
         data-testid="shopping-cart-empty-message"
