@@ -43,7 +43,7 @@ class ProductDetails extends Component {
       props: { getProduct, productsOnCart, allComments, commentsProduct },
     } = this;
     const { match: { params: { id } } } = this.props;
-    // console.log(getProduct);
+
     return (
       <div>
         <h2 data-testid="product-detail-name">
