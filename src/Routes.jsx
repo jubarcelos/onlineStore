@@ -18,6 +18,9 @@ class Routes extends Component {
     });
   }
 
+  // O Gabis nos ajudou a refatorar o código da getProduct e groupProducts e preferimos criar as func. setCounter e updateCart  para usarmos tbm no incremento.
+  // Aprendemos muito sobre uso dos parametros. Muito bom.
+
   setCounter = ({ productsOnCart }, productSelected) => {
     const {
       productImg,
