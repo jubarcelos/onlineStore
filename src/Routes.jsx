@@ -19,11 +19,34 @@ class Routes extends Component {
   }
 
   getProduct = (productSelected) => {
-    const { productImg, productPrice, productName, productId } = productSelected;
-    this.setState(({ productsOnCart }) => (
-      { productsOnCart:
-        [...productsOnCart, { productImg, productPrice, productName, productId }],
-      }));
+    const {
+      productImg,
+      productPrice,
+      productName,
+      productId,
+    } = productSelected;
+
+    this.setState(({ productsOnCart }) => {
+      const filtered = productsOnCart.find((prod) => prod.productId === productId);
+      console.log(filtered);
+      if (!filtered) {
+        return { productsOnCart:
+        [...productsOnCart, {
+          productImg,
+          productPrice,
+          productName,
+          productId,
+          productCounter: 1,
+        }] };
+      }
+      const updateCart = productsOnCart.map((prod) => {
+        if (prod.productId === productId) {
+          return { ...prod, productCounter: prod.productCounter + 1 };
+        }
+      });
+      console.log(updateCart);
+      return { productsOnCart: updateCart };
+    });
   }
 
   render() {
