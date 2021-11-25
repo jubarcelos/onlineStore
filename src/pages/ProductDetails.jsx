@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import * as api from '../services/api';
 import CartLink from '../components/CartLink';
+import Assessment from '../components/Assessment';
 
 class ProductDetails extends Component {
   constructor() {
@@ -39,8 +40,9 @@ class ProductDetails extends Component {
         productImg,
         productAttributes,
       },
-      props: { getProduct, productsOnCart },
+      props: { getProduct, productsOnCart, allComments, commentsProduct },
     } = this;
+    const { match: { params: { id } } } = this.props;
     // console.log(getProduct);
     return (
       <div>
@@ -73,10 +75,17 @@ class ProductDetails extends Component {
         <CartLink
           productsOnCart={ productsOnCart }
         />
+        <Assessment
+          allComments={ allComments }
+          commentsProduct={ commentsProduct }
+          id={ id }
+        />
       </div>
     );
   }
 }
+
+export default ProductDetails;
 
 ProductDetails.propTypes = {
   match: PropTypes.shape({
@@ -86,6 +95,6 @@ ProductDetails.propTypes = {
   }).isRequired,
   productsOnCart: PropTypes.arrayOf(PropTypes.object).isRequired,
   getProduct: PropTypes.func.isRequired,
+  allComments: PropTypes.arrayOf(PropTypes.object).isRequired,
+  commentsProduct: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
-
-export default ProductDetails;
