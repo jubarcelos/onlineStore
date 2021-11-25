@@ -37,7 +37,7 @@ class Assessment extends Component {
     ), () => {
       const {
         state: { commentsOnProduct },
-        props: { allComments, commentsProduct },
+        props: { commentsProduct },
       } = this;
       this.setState({
         email: '',
@@ -159,4 +159,6 @@ export default Assessment;
 
 Assessment.propTypes = {
   allComments: PropTypes.arrayOf(PropTypes.object).isRequired,
+  id: PropTypes.string.isRequired,
+  commentsProduct: PropTypes.func.isRequired,
 };
