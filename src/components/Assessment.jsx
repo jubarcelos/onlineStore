@@ -16,7 +16,7 @@ class Assessment extends Component {
   componentDidMount() {
     this.updateCommentsOnCart();
   }
-  // ajuda do tales da monitoria para conseguir perceber a necessidade do setState ser no didMount e organizar onde apareciam os comments.
+  // Ajuda do tales da monitoria para conseguir perceber a necessidade do setState ser no didMount e organizar onde apareciam os comments.
 
   updateCommentsOnCart = () => {
     const { allComments } = this.props;
