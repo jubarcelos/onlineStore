@@ -13,6 +13,12 @@ class Routes extends Component {
     };
   }
 
+  commentsProduct = (commentsOnProduct) => {
+    this.setState({
+      allComments: commentsOnProduct,
+    });
+  }
+
   deleteProductOnCart = (newProductOnCart) => {
     this.setState({
       productsOnCart: newProductOnCart,
