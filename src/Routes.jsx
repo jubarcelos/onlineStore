@@ -18,7 +18,7 @@ class Routes extends Component {
     });
   }
 
-  getProduct = (productSelected) => {
+  setCounter = ({ productsOnCart }, productSelected) => {
     const {
       productImg,
       productPrice,
@@ -26,27 +26,48 @@ class Routes extends Component {
       productId,
     } = productSelected;
 
-    this.setState(({ productsOnCart }) => {
-      const filtered = productsOnCart.find((prod) => prod.productId === productId);
-      console.log(filtered);
-      if (!filtered) {
-        return { productsOnCart:
-        [...productsOnCart, {
-          productImg,
-          productPrice,
-          productName,
-          productId,
-          productCounter: 1,
-        }] };
+    const filtered = productsOnCart.find((prod) => prod.productId === productId);
+    if (!filtered) {
+      return {
+        productsOnCart:
+          [...productsOnCart, {
+            productImg,
+            productPrice,
+            productName,
+            productId,
+            productCounter: 1,
+          }],
+      };
+    }
+    return this.updateCart(productsOnCart, productId);
+  }
+
+  getProduct = (productSelected) => {
+    this.setState((prevState) => this.setCounter(prevState, productSelected));
+  }
+
+  updateCart = (productsOnCart, productId, increase = false) => {
+    const newCart = productsOnCart.map((prod) => {
+      if (prod.productId === productId) {
+        return { ...prod, productCounter: prod.productCounter + 1 };
       }
-      const updateCart = productsOnCart.map((prod) => {
-        if (prod.productId === productId) {
-          return { ...prod, productCounter: prod.productCounter + 1 };
-        }
-      });
-      console.log(updateCart);
-      return { productsOnCart: updateCart };
+      return prod;
     });
+
+    if (increase) this.setState({ productsOnCart: newCart });
+    return { productsOnCart: newCart };
+  }
+
+  downDateCart = (productsOnCart, productId, increase = false) => {
+    const newCart = productsOnCart.map((prod) => {
+      if (prod.productId === productId) {
+        return { ...prod, productCounter: prod.productCounter - 1 };
+      }
+      return prod;
+    });
+
+    if (increase) this.setState({ productsOnCart: newCart });
+    return { productsOnCart: newCart };
   }
 
   render() {
@@ -69,6 +90,8 @@ class Routes extends Component {
           render={ () => (
             <Cart
               productsOnCart={ productsOnCart }
+              updateCart={ this.updateCart }
+              downDateCart={ this.downDateCart }
               deleteProductOnCart={ deleteProductOnCart }
             />) }
         />

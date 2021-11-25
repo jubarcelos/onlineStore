@@ -24,41 +24,16 @@ class Cart extends Component {
     });
   }
 
-  increaseQuantity = ({ target: { id } }) => {
-    const { newProductOnCart } = this.state;
-    console.log(id);
-    const cartItem = newProductOnCart.map((item) => {
-      if (item.productId === id) return { ...item, counter: item.counter + 1 };
-      return item;
-    });
-    console.log(newProductOnCart);
-    this.setState({ newProductOnCart: cartItem });
+  increaseQuantity = (productId) => {
+    const { updateCart, productsOnCart } = this.props;
+    const isIncrease = true;
+    updateCart(productsOnCart, productId, isIncrease);
   }
 
-  decreaseQuantity = (product) => {
-    const { props: { deleteProductOnCart } } = this;
-    this.setState((prevState) => ({
-      newProductOnCart: prevState.newProductOnCart.filter((prod) => prod !== product),
-    }), () => {
-      const { state: { newProductOnCart } } = this;
-      deleteProductOnCart(newProductOnCart);
-    });
-  }
-
-  groupProducts = (products) => {
-    const productsGroupedByName = [];
-    for (let index = 0; index < products.length; index += 1) {
-      const currentProduct = products[index];
-      const existingProduct = productsGroupedByName
-        .find((newProduct) => newProduct.productName === currentProduct.productName);
-      if (existingProduct) {
-        existingProduct.counter += 1;
-      } else {
-        currentProduct.counter = 1;
-        productsGroupedByName.push(currentProduct);
-      }
-    }
-    return productsGroupedByName;
+  decreaseQuantity = (productId) => {
+    const { downDateCart, productsOnCart } = this.props;
+    const isIncrease = true;
+    downDateCart(productsOnCart, productId, isIncrease);
   }
 
   updateState = () => {
@@ -68,8 +43,9 @@ class Cart extends Component {
     });
   }
 
-  productInfoCard = (newProductOnCart) => (
-    this.groupProducts(newProductOnCart).map((product) => (
+  productInfoCard = () => {
+    const { productsOnCart } = this.props;
+    return productsOnCart.map((product) => (
       <div key={ product.productName } data-testid="shopping-cart-product-name">
         <p>
           { product.productName }
@@ -80,11 +56,11 @@ class Cart extends Component {
           { product.productPrice }
         </p>
         <p id="counter" data-testid="shopping-cart-product-quantity">
-          { product.counter }
+          { product.productCounter }
         </p>
         <div>
           <button
-            onClick={ this.increaseQuantity }
+            onClick={ () => this.increaseQuantity(product.productId) }
             data-testid="product-increase-quantity"
             type="button"
             id={ product.productId }
@@ -92,7 +68,7 @@ class Cart extends Component {
             +
           </button>
           <button
-            onClick={ () => this.decreaseQuantity(product) }
+            onClick={ () => this.decreaseQuantity(product.productId) }
             data-testid="product-decrease-quantity"
             type="button"
             id={ product.productId }
@@ -101,16 +77,14 @@ class Cart extends Component {
           </button>
         </div>
       </div>
-    ))
-  );
+    ));
+  };
 
   render() {
     const {
-      // props: { productsOnCart },
-      state: { newProductOnCart },
+      props: { productsOnCart },
       productInfoCard,
     } = this;
-    // console.log(newProductOnCart);
 
     const notHaveProduct = (
       <p
@@ -121,7 +95,7 @@ class Cart extends Component {
     );
 
     return (
-      newProductOnCart.length ? productInfoCard(newProductOnCart) : notHaveProduct
+      productsOnCart.length ? productInfoCard() : notHaveProduct
     );
   }
 }
@@ -129,6 +103,8 @@ class Cart extends Component {
 Cart.propTypes = {
   productsOnCart: PropTypes.arrayOf(PropTypes.object).isRequired,
   deleteProductOnCart: PropTypes.func.isRequired,
+  updateCart: PropTypes.func.isRequired,
+  downDateCart: PropTypes.func.isRequired,
 };
 
 export default Cart;
