@@ -40,6 +40,7 @@ class ProductDetails extends Component {
       },
       props: { getProduct, productsOnCart, allComments, commentsProduct },
     } = this;
+    const { match: { params: { id } } } = this.props;
     // console.log(getProduct);
     return (
       <div>
@@ -75,6 +76,7 @@ class ProductDetails extends Component {
         <Assessment
           allComments={ allComments }
           commentsProduct={ commentsProduct }
+          id={ id }
         />
       </div>
     );

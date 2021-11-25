@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class Assessment extends Component {
   constructor() {
@@ -10,6 +11,15 @@ class Assessment extends Component {
       comment: '',
       commentsOnProduct: [],
     };
+  }
+
+  componentDidMount() {
+    this.updateCommentsOnCart();
+  }
+
+  updateCommentsOnCart = () => {
+    const { allComments } = this.props;
+    this.setState({ commentsOnProduct: allComments });
   }
 
   onInputChange = ({ target }) => {
@@ -27,7 +37,7 @@ class Assessment extends Component {
     ), () => {
       const {
         state: { commentsOnProduct },
-        // props: { allComments, commentsProduct },
+        props: { allComments, commentsProduct },
       } = this;
       this.setState({
         email: '',
@@ -49,18 +59,33 @@ class Assessment extends Component {
   }
 
   newComment = () => {
-    const { stars, email, comment } = this.state;
+    const { state: { stars, email, comment },
+      props: { id } } = this;
     const newComment = {
       email,
       stars,
       comment,
+      id,
     };
     return newComment;
+  }
+
+  commentsAboutProduct = () => {
+    const { allComments, id } = this.props;
+    return allComments.filter((comment) => comment.id === id)
+      .map(({ email, stars, comment }) => (
+        <div key={ email }>
+          <p>{ email }</p>
+          <p>{ stars }</p>
+          <p>{ comment }</p>
+        </div>
+      ));
   }
 
   render() {
     const {
       state: { isSaveButtonDisabled, email, stars, comment },
+      props: { allComments },
     } = this;
 
     const commentForm = (
@@ -109,7 +134,7 @@ class Assessment extends Component {
           </label>
         </div>
         <button
-          type="submit"
+          type="button"
           disabled={ isSaveButtonDisabled }
           onClick={ this.addAssessment }
         >
@@ -119,12 +144,19 @@ class Assessment extends Component {
     );
     return (
       <div>
-        <p>Avalição dos consumidores</p>
+        <p>Avalie o produto</p>
         { commentForm }
-        {/* { allComments } */ }
+        <p>Avaliações Pregressas</p>
+        {
+          allComments ? this.commentsAboutProduct() : null
+        }
       </div>
     );
   }
 }
 
 export default Assessment;
+
+Assessment.propTypes = {
+  allComments: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
