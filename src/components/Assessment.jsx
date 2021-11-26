@@ -75,7 +75,7 @@ class Assessment extends Component {
     const { allComments, id } = this.props;
     return allComments.filter((comment) => comment.id === id)
       .map(({ email, stars, comment }) => (
-        <div key={ email }>
+        <div key={ id }>
           <p>{ email }</p>
           <p>{ stars }</p>
           <p>{ comment }</p>

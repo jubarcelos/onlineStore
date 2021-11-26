@@ -96,5 +96,5 @@ ProductDetails.propTypes = {
   productsOnCart: PropTypes.arrayOf(PropTypes.object).isRequired,
   getProduct: PropTypes.func.isRequired,
   allComments: PropTypes.arrayOf(PropTypes.object).isRequired,
-  commentsProduct: PropTypes.arrayOf(PropTypes.object).isRequired,
+  commentsProduct: PropTypes.func.isRequired,
 };
