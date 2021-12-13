@@ -34,7 +34,10 @@ class Cart extends Component {
     const { downDateCart, productsOnCart } = this.props;
     const isIncrease = true;
     downDateCart(productsOnCart, productId, isIncrease);
+    productsOnCart.filter((product) => product.productCounter === 0)
+      .map((option) => this.deleteProduct(option));
   }
+  // corrigir que está retornando um produto quando exclui o outro.
 
   updateState = () => {
     const { props: { productsOnCart } } = this;
@@ -46,14 +49,14 @@ class Cart extends Component {
   productInfoCard = () => {
     const { productsOnCart } = this.props;
     return productsOnCart.map((product) => (
-      <div key={ product.productName } data-testid="shopping-cart-product-name">
+      <div key={ product.productId } data-testid="shopping-cart-product-name">
         <p>
           { product.productName }
         </p>
         <button onClick={ () => this.deleteProduct(product) } type="button">x</button>
         <img src={ product.productImg } alt={ product.productName } />
         <p>
-          { product.productPrice }
+          { `R$ ${(product.productPrice * product.productCounter).toFixed(2)} `}
         </p>
         <p id="counter" data-testid="shopping-cart-product-quantity">
           { product.productCounter }
@@ -80,6 +83,14 @@ class Cart extends Component {
     ));
   };
 
+  totalPurchase = () => {
+    const { productsOnCart } = this.props;
+    const total = productsOnCart
+      .map(({ productCounter, productPrice }) => productCounter * productPrice)
+      .reduce((acc, crr) => acc + crr, 0);
+    return total.toFixed(2);
+  }
+
   render() {
     const {
       props: { productsOnCart },
@@ -95,7 +106,17 @@ class Cart extends Component {
     );
 
     return (
-      productsOnCart.length ? productInfoCard() : notHaveProduct
+      productsOnCart.length
+        ? (
+          <div>
+            { productInfoCard() }
+            <div>
+              <p>{ `Valor Total Da Compra: R$ ${this.totalPurchase()}` }</p>
+            </div>
+            <button type="button">Finalizar Compra</button>
+          </div>
+        )
+        : notHaveProduct
     );
   }
 }

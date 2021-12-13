@@ -35,7 +35,7 @@ class Home extends Component {
     const { props: { getProduct } } = this;
     return (
       productsList.map(({ title, thumbnail, price, id }) => (
-        <div key={ title } data-testid="product">
+        <div key={ id } data-testid="product">
           <Card
             id={ id }
             name={ title }
