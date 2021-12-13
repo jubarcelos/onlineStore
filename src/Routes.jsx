@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Cart from './pages/Cart';
 import Home from './pages/Home';
+import FinalCart from './components/FinalCart';
 import ProductDetails from './pages/ProductDetails';
 
 class Routes extends Component {
@@ -64,7 +65,9 @@ class Routes extends Component {
       return prod;
     });
 
-    if (increase) this.setState({ productsOnCart: newCart });
+    if (increase) {
+      this.setState({ productsOnCart: newCart });
+    }
     return { productsOnCart: newCart };
   }
 
@@ -76,8 +79,18 @@ class Routes extends Component {
       return prod;
     });
 
-    if (increase) this.setState({ productsOnCart: newCart });
+    if (increase) {
+      this.setState({ productsOnCart: newCart });
+    }
     return { productsOnCart: newCart };
+  }
+
+  totalPurchase = () => {
+    const { productsOnCart } = this.state;
+    const total = productsOnCart
+      .map(({ productCounter, productPrice }) => productCounter * productPrice)
+      .reduce((acc, crr) => acc + crr, 0);
+    return total.toFixed(2);
   }
 
   render() {
@@ -103,6 +116,7 @@ class Routes extends Component {
               updateCart={ this.updateCart }
               downDateCart={ this.downDateCart }
               deleteProductOnCart={ deleteProductOnCart }
+              totalPurchase={ this.totalPurchase }
             />) }
         />
         <Route
@@ -115,6 +129,16 @@ class Routes extends Component {
               allComments={ allComments }
               commentsProduct={ this.commentsProduct }
             />) }
+        />
+        <Route
+          path="/finalcart"
+          render={ (props) => (
+            <FinalCart
+              { ...props }
+              productsOnCart={ productsOnCart }
+              totalPurchase={ this.totalPurchase }
+            />
+          ) }
         />
       </Switch>
     );

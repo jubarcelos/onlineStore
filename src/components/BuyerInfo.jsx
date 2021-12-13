@@ -49,6 +49,18 @@ class BuyerInfo extends Component {
             </label>
           </div>
           <div>
+            <label htmlFor="tel">
+              Telefone:
+              <input
+                type="tel"
+                name="tel"
+                id="tel"
+                data-testid="checkout-phone"
+                placeholder="Put your phone"
+              />
+            </label>
+          </div>
+          <div>
             <label htmlFor="cep">
               CEP:
               <input
@@ -74,11 +86,6 @@ class BuyerInfo extends Component {
             </label>
           </div>
         </form>
-        <button
-          type="button"
-        >
-          Finalizar compra
-        </button>
       </div>
 
     );

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 class Cart extends Component {
   constructor() {
@@ -25,16 +26,26 @@ class Cart extends Component {
   }
 
   increaseQuantity = (productId) => {
-    const { updateCart, productsOnCart } = this.props;
+    const { props: { updateCart, productsOnCart } } = this;
     const isIncrease = true;
     updateCart(productsOnCart, productId, isIncrease);
+    this.time();
   }
 
   decreaseQuantity = (productId) => {
-    const { downDateCart, productsOnCart } = this.props;
+    const { props: { downDateCart, productsOnCart } } = this;
     const isIncrease = true;
     downDateCart(productsOnCart, productId, isIncrease);
+    this.time();
+    productsOnCart.filter((product) => product.productCounter === 0)
+      .map((option) => this.deleteProduct(option));
   }
+
+  time = () => {
+    const mil = 1000;
+    setTimeout(() => { this.updateState(); }, mil);
+  }
+  // resolve o delay de atualização para o routes.
 
   updateState = () => {
     const { props: { productsOnCart } } = this;
@@ -53,7 +64,7 @@ class Cart extends Component {
         <button onClick={ () => this.deleteProduct(product) } type="button">x</button>
         <img src={ product.productImg } alt={ product.productName } />
         <p>
-          { `R$ ${(product.productPrice * product.productCounter).toFixed(2)} `}
+          { `R$ ${(product.productPrice * product.productCounter).toFixed(2)} ` }
         </p>
         <p id="counter" data-testid="shopping-cart-product-quantity">
           { product.productCounter }
@@ -80,17 +91,9 @@ class Cart extends Component {
     ));
   };
 
-  totalPurchase = () => {
-    const { productsOnCart } = this.props;
-    const total = productsOnCart
-      .map(({ productCounter, productPrice }) => productCounter * productPrice)
-      .reduce((acc, crr) => acc + crr, 0);
-    return total.toFixed(2);
-  }
-
   render() {
     const {
-      props: { productsOnCart },
+      props: { productsOnCart, totalPurchase },
       productInfoCard,
     } = this;
 
@@ -108,9 +111,18 @@ class Cart extends Component {
           <div>
             { productInfoCard() }
             <div>
-              <p>{ `Valor Total Da Compra: R$ ${this.totalPurchase()}` }</p>
+              <p>{ `Valor Total Da Compra: R$ ${totalPurchase()}` }</p>
             </div>
-            <button type="button">Finalizar Compra</button>
+            <Link
+              to="/finalcart"
+            >
+              <button
+                type="button"
+                data-testid="checkout-products"
+              >
+                Finalizar Compra
+              </button>
+            </Link>
           </div>
         )
         : notHaveProduct
@@ -123,6 +135,7 @@ Cart.propTypes = {
   deleteProductOnCart: PropTypes.func.isRequired,
   updateCart: PropTypes.func.isRequired,
   downDateCart: PropTypes.func.isRequired,
+  totalPurchase: PropTypes.func.isRequired,
 };
 
 export default Cart;
