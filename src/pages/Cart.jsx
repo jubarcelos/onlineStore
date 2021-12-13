@@ -24,27 +24,25 @@ class Cart extends Component {
     });
   }
 
-  increaseQuantity = async (productId) => {
+  increaseQuantity = (productId) => {
     const { props: { updateCart, productsOnCart } } = this;
     const isIncrease = true;
     updateCart(productsOnCart, productId, isIncrease);
-    await this.time();
-    this.updateState();
+    this.time();
   }
 
-  decreaseQuantity = async (productId) => {
+  decreaseQuantity = (productId) => {
     const { props: { downDateCart, productsOnCart } } = this;
     const isIncrease = true;
     downDateCart(productsOnCart, productId, isIncrease);
-    await this.time();
-    this.updateState();
+    this.time();
     productsOnCart.filter((product) => product.productCounter === 0)
       .map((option) => this.deleteProduct(option));
   }
 
   time = () => {
     const mil = 1000;
-    return new Promise((resolve) => setTimeout(resolve, mil));
+    setTimeout(() => { this.updateState(); }, mil);
   }
   // resolve o delay de atualização para o routes.
 
