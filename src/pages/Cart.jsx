@@ -116,7 +116,12 @@ class Cart extends Component {
             <Link
               to="/finalcart"
             >
-              <button type="button">Finalizar Compra</button>
+              <button
+                type="button"
+                data-testid="checkout-products"
+              >
+                Finalizar Compra
+              </button>
             </Link>
           </div>
         )

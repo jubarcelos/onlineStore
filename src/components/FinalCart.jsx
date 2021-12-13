@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import BuyerInfo from './BuyerInfo';
 import PurchaseResume from './PurchaseResume';
+import Payment from './Payment';
 
 class FinalCart extends Component {
   render() {
@@ -9,13 +10,12 @@ class FinalCart extends Component {
     // console.log(this);
     return (
       <div>
-        {/* resumo da compra */}
         <PurchaseResume
           productsOnCart={ productsOnCart }
           totalPurchase={ totalPurchase }
         />
         <BuyerInfo />
-        {/* dados de pagamento */}
+        <Payment />
       </div>
     );
   }
