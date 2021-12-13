@@ -74,11 +74,6 @@ class BuyerInfo extends Component {
             </label>
           </div>
         </form>
-        <button
-          type="button"
-        >
-          Finalizar compra
-        </button>
       </div>
 
     );

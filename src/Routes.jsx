@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Cart from './pages/Cart';
 import Home from './pages/Home';
+import FinalCart from './components/FinalCart';
 import ProductDetails from './pages/ProductDetails';
 
 class Routes extends Component {
@@ -119,6 +120,15 @@ class Routes extends Component {
               allComments={ allComments }
               commentsProduct={ this.commentsProduct }
             />) }
+        />
+        <Route
+          path="/finalcart"
+          render={ (props) => (
+            <FinalCart
+              { ...props }
+              productsOnCart={ productsOnCart }
+            />
+          ) }
         />
       </Switch>
     );

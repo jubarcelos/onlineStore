@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 class Cart extends Component {
   constructor() {
@@ -63,7 +64,7 @@ class Cart extends Component {
         <button onClick={ () => this.deleteProduct(product) } type="button">x</button>
         <img src={ product.productImg } alt={ product.productName } />
         <p>
-          { `R$ ${(product.productPrice * product.productCounter).toFixed(2)} `}
+          { `R$ ${ (product.productPrice * product.productCounter).toFixed(2) } ` }
         </p>
         <p id="counter" data-testid="shopping-cart-product-quantity">
           { product.productCounter }
@@ -102,6 +103,7 @@ class Cart extends Component {
     const {
       props: { productsOnCart },
       productInfoCard,
+      totalPurchase,
     } = this;
 
     const notHaveProduct = (
@@ -120,7 +122,14 @@ class Cart extends Component {
             <div>
               <p>{ `Valor Total Da Compra: R$ ${this.totalPurchase()}` }</p>
             </div>
-            <button type="button">Finalizar Compra</button>
+            <Link
+              to={ {
+                pathname: '/finalcart',
+                state: { totalPurchase: this.totalPurchase },
+              } }
+            >
+              <button type="button">Finalizar Compra</button>
+            </Link>
           </div>
         )
         : notHaveProduct
