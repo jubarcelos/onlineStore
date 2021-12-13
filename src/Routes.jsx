@@ -64,7 +64,9 @@ class Routes extends Component {
       return prod;
     });
 
-    if (increase) this.setState({ productsOnCart: newCart });
+    if (increase) {
+      this.setState({ productsOnCart: newCart });
+    }
     return { productsOnCart: newCart };
   }
 
@@ -76,7 +78,9 @@ class Routes extends Component {
       return prod;
     });
 
-    if (increase) this.setState({ productsOnCart: newCart });
+    if (increase) {
+      this.setState({ productsOnCart: newCart });
+    }
     return { productsOnCart: newCart };
   }
 

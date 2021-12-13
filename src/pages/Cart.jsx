@@ -24,20 +24,29 @@ class Cart extends Component {
     });
   }
 
-  increaseQuantity = (productId) => {
-    const { updateCart, productsOnCart } = this.props;
+  increaseQuantity = async (productId) => {
+    const { props: { updateCart, productsOnCart } } = this;
     const isIncrease = true;
     updateCart(productsOnCart, productId, isIncrease);
+    await this.time();
+    this.updateState();
   }
 
-  decreaseQuantity = (productId) => {
-    const { downDateCart, productsOnCart } = this.props;
+  decreaseQuantity = async (productId) => {
+    const { props: { downDateCart, productsOnCart } } = this;
     const isIncrease = true;
     downDateCart(productsOnCart, productId, isIncrease);
+    await this.time();
+    this.updateState();
     productsOnCart.filter((product) => product.productCounter === 0)
       .map((option) => this.deleteProduct(option));
   }
-  // corrigir que está retornando um produto quando exclui o outro.
+
+  time = () => {
+    const mil = 1000;
+    return new Promise((resolve) => setTimeout(resolve, mil));
+  }
+  // resolve o delay de atualização para o routes.
 
   updateState = () => {
     const { props: { productsOnCart } } = this;
