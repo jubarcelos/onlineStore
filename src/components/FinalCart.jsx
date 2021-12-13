@@ -16,6 +16,9 @@ class FinalCart extends Component {
         />
         <BuyerInfo />
         <Payment />
+        <button type="button">
+          Finalizar compra
+        </button>
       </div>
     );
   }
