@@ -64,7 +64,7 @@ class Cart extends Component {
         <button onClick={ () => this.deleteProduct(product) } type="button">x</button>
         <img src={ product.productImg } alt={ product.productName } />
         <p>
-          { `R$ ${ (product.productPrice * product.productCounter).toFixed(2) } ` }
+          { `R$ ${(product.productPrice * product.productCounter).toFixed(2)} ` }
         </p>
         <p id="counter" data-testid="shopping-cart-product-quantity">
           { product.productCounter }
@@ -103,7 +103,6 @@ class Cart extends Component {
     const {
       props: { productsOnCart },
       productInfoCard,
-      totalPurchase,
     } = this;
 
     const notHaveProduct = (
