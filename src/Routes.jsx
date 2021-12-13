@@ -14,6 +14,29 @@ class Routes extends Component {
     };
   }
 
+  componentDidMount() {
+    this.getLocalStorage();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { productsOnCart } = this.state;
+    if (prevState.productsOnCart !== productsOnCart) {
+      this.setLocalStorage();
+    }
+  }
+
+  setLocalStorage = () => {
+    const { productsOnCart } = this.state;
+    localStorage.setItem('cart', JSON.stringify(productsOnCart));
+  }
+
+  getLocalStorage = () => {
+    const getLocalStorageItens = JSON.parse(localStorage.getItem('cart')) || [];
+    this.setState({
+      productsOnCart: [...getLocalStorageItens],
+    });
+  }
+
   commentsProduct = (commentsOnProduct) => {
     this.setState({
       allComments: commentsOnProduct,
