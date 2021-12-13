@@ -85,6 +85,14 @@ class Routes extends Component {
     return { productsOnCart: newCart };
   }
 
+  totalPurchase = () => {
+    const { productsOnCart } = this.state;
+    const total = productsOnCart
+      .map(({ productCounter, productPrice }) => productCounter * productPrice)
+      .reduce((acc, crr) => acc + crr, 0);
+    return total.toFixed(2);
+  }
+
   render() {
     const {
       state: { productsOnCart, allComments },
@@ -108,6 +116,7 @@ class Routes extends Component {
               updateCart={ this.updateCart }
               downDateCart={ this.downDateCart }
               deleteProductOnCart={ deleteProductOnCart }
+              totalPurchase={ this.totalPurchase }
             />) }
         />
         <Route
@@ -127,6 +136,7 @@ class Routes extends Component {
             <FinalCart
               { ...props }
               productsOnCart={ productsOnCart }
+              totalPurchase={ this.totalPurchase }
             />
           ) }
         />

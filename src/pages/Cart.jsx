@@ -91,17 +91,9 @@ class Cart extends Component {
     ));
   };
 
-  totalPurchase = () => {
-    const { productsOnCart } = this.props;
-    const total = productsOnCart
-      .map(({ productCounter, productPrice }) => productCounter * productPrice)
-      .reduce((acc, crr) => acc + crr, 0);
-    return total.toFixed(2);
-  }
-
   render() {
     const {
-      props: { productsOnCart },
+      props: { productsOnCart, totalPurchase },
       productInfoCard,
     } = this;
 
@@ -119,13 +111,10 @@ class Cart extends Component {
           <div>
             { productInfoCard() }
             <div>
-              <p>{ `Valor Total Da Compra: R$ ${this.totalPurchase()}` }</p>
+              <p>{ `Valor Total Da Compra: R$ ${totalPurchase()}` }</p>
             </div>
             <Link
-              to={ {
-                pathname: '/finalcart',
-                state: { totalPurchase: this.totalPurchase },
-              } }
+              to="/finalcart"
             >
               <button type="button">Finalizar Compra</button>
             </Link>
@@ -141,6 +130,7 @@ Cart.propTypes = {
   deleteProductOnCart: PropTypes.func.isRequired,
   updateCart: PropTypes.func.isRequired,
   downDateCart: PropTypes.func.isRequired,
+  totalPurchase: PropTypes.func.isRequired,
 };
 
 export default Cart;

@@ -5,13 +5,14 @@ import PurchaseResume from './PurchaseResume';
 
 class FinalCart extends Component {
   render() {
-    const { productsOnCart } = this.props;
+    const { productsOnCart, totalPurchase } = this.props;
     // console.log(this);
     return (
       <div>
         {/* resumo da compra */}
         <PurchaseResume
           productsOnCart={ productsOnCart }
+          totalPurchase={ totalPurchase }
         />
         <BuyerInfo />
         {/* dados de pagamento */}
@@ -24,4 +25,5 @@ export default FinalCart;
 
 FinalCart.propTypes = {
   productsOnCart: PropTypes.arrayOf(PropTypes.object).isRequired,
+  totalPurchase: PropTypes.func.isRequired,
 };

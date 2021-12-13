@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 class PurchaseResume extends Component {
   render() {
-    const { productsOnCart } = this.props;
+    const { productsOnCart, totalPurchase } = this.props;
 
     return (
       <div>
@@ -15,7 +15,7 @@ class PurchaseResume extends Component {
               </p>
               <img src={ product.productImg } alt={ product.productName } />
               <p id="counter" data-testid="shopping-cart-product-quantity">
-                { `Quantidade: ${product.productCounter} `}
+                { `Quantidade: ${product.productCounter} ` }
               </p>
               <p>
                 { `R$ ${(product.productPrice * product.productCounter).toFixed(2)} ` }
@@ -23,6 +23,7 @@ class PurchaseResume extends Component {
             </div>
           ))
         }
+        { `Total a pagar: ${totalPurchase()}` }
       </div>
     );
   }
@@ -32,4 +33,5 @@ export default PurchaseResume;
 
 PurchaseResume.propTypes = {
   productsOnCart: PropTypes.arrayOf(PropTypes.object).isRequired,
+  totalPurchase: PropTypes.func.isRequired,
 };
