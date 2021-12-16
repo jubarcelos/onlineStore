@@ -58,6 +58,7 @@ class Routes extends Component {
       productPrice,
       productName,
       productId,
+      productStock,
     } = productSelected;
 
     const filtered = productsOnCart.find((prod) => prod.productId === productId);
@@ -69,6 +70,7 @@ class Routes extends Component {
             productPrice,
             productName,
             productId,
+            productStock,
             productCounter: 1,
           }],
       };

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 class Card extends Component {
   render() {
-    const { name, image, price, id, getProduct } = this.props;
+    const { name, image, price, id, stock, getProduct } = this.props;
     return (
       <div>
         <Link
@@ -24,6 +24,7 @@ class Card extends Component {
               productPrice: price,
               productName: name,
               productId: id,
+              productStock: stock,
             })) }
         >
           Buy
@@ -39,6 +40,7 @@ Card.propTypes = {
   price: PropTypes.number.isRequired,
   id: PropTypes.string.isRequired,
   getProduct: PropTypes.func.isRequired,
+  stock: PropTypes.number.isRequired,
 };
 
 export default Card;

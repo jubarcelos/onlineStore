@@ -34,17 +34,19 @@ class Home extends Component {
   showCards = (productsList) => {
     const { props: { getProduct } } = this;
     return (
-      productsList.map(({ title, thumbnail, price, id }) => (
-        <div key={ id } data-testid="product">
-          <Card
-            id={ id }
-            name={ title }
-            image={ thumbnail }
-            price={ price }
-            getProduct={ getProduct }
-          />
-        </div>
-      ))
+      productsList
+        .map(({ title, thumbnail, price, id, available_quantity: quantity }) => (
+          <div key={ id } data-testid="product">
+            <Card
+              id={ id }
+              name={ title }
+              image={ thumbnail }
+              price={ price }
+              stock={ quantity }
+              getProduct={ getProduct }
+            />
+          </div>
+        ))
     );
   }
 

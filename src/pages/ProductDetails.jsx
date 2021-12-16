@@ -12,6 +12,7 @@ class ProductDetails extends Component {
       productPrice: '',
       productImg: '',
       productId: '',
+      productStock: 0,
       productAttributes: [],
     };
   }
@@ -23,13 +24,14 @@ class ProductDetails extends Component {
 
   getProductsFunction = async (id) => {
     const response = await api.getProductById(id);
-    const { title, price, thumbnail, attributes } = response;
+    const { title, price, thumbnail, attributes, available_quantity: stock } = response;
     this.setState({
       productName: title,
       productPrice: price,
       productImg: thumbnail,
       productAttributes: attributes,
       productId: id,
+      productStock: stock,
     });
   }
 
