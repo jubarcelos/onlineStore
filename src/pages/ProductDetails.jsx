@@ -12,6 +12,8 @@ class ProductDetails extends Component {
       productPrice: '',
       productImg: '',
       productId: '',
+      stockData: 0,
+      counterData: 0,
       productAttributes: [],
     };
   }
@@ -19,6 +21,7 @@ class ProductDetails extends Component {
   componentDidMount() {
     const { match: { params: { id } } } = this.props;
     this.getProductsFunction(id);
+    this.compareId();
   }
 
   getProductsFunction = async (id) => {
@@ -33,14 +36,22 @@ class ProductDetails extends Component {
     });
   }
 
+  // Iniciar novo raciocício de pegar as infos de estoque e produtos no carrinho para desabilitar o botão Add to cart
   compareId = () => {
     const { productsOnCart } = this.props;
-    const { id } = this.state;
+    const { productId } = this.state;
+
     if (productsOnCart.length !== 0) {
       const compare = (
-        productsOnCart.find((product) => product.productId === `${id}`)
+        productsOnCart.find((product) => product.productId === `${productId}`)
       );
-      if (compare) return compare.productCounter;
+      if (compare) {
+        this.setState({
+          stockData: compare.productStock,
+          counterData: compare.productCounter,
+        });
+        // return compare;
+      }
       return null;
     }
     return null;
@@ -52,8 +63,10 @@ class ProductDetails extends Component {
         productPrice,
         productImg,
         productAttributes,
+        stockData,
+        counterData,
       },
-      props: { getProduct, productsOnCart, allComments, commentsProduct },
+      props: { getProduct, productsOnCart, allComments, commentsProduct, verifyStock },
     } = this;
     const { match: { params: { id } } } = this.props;
 
@@ -80,9 +93,9 @@ class ProductDetails extends Component {
         <button
           type="button"
           name={ productName }
-          // disabled={
-          //   verifyStock(this.compareId(), productStock)
-          // }
+          disabled={
+            verifyStock(stockData, counterData)
+          }
           data-testid="product-detail-add-to-cart"
           onClick={ () => getProduct(this.state) }
         >
@@ -113,5 +126,5 @@ ProductDetails.propTypes = {
   getProduct: PropTypes.func.isRequired,
   allComments: PropTypes.arrayOf(PropTypes.object).isRequired,
   commentsProduct: PropTypes.func.isRequired,
-  // verifyStock: PropTypes.func.isRequired,
+  verifyStock: PropTypes.func.isRequired,
 };
