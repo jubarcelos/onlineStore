@@ -55,28 +55,6 @@ class Cart extends Component {
     });
   }
 
-  // verifyStock = () => {
-  //   const { productsOnCart } = this.props;
-  //   const { isDisabled } = this.state;
-
-  //   return (
-  //     productsOnCart.map((product) => {
-  //       if (product.productStock <= 0) {
-  //         this.setState({ isDisabled: true });
-  //       } else {
-  //         this.setState({ isDisabled: false });
-  //       }
-  //     })
-  //   );
-  // }
-
-  // verifyStock = (param1, param2) => {
-  //   if (param1 >= param2) {
-  //     return true;
-  //   }
-  //   return false;
-  // }
-
   productInfoCard = () => {
     const { productsOnCart, verifyStock } = this.props;
     return productsOnCart.map((product) => (

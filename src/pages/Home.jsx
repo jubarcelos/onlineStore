@@ -32,7 +32,7 @@ class Home extends Component {
   }
 
   showCards = (productsList) => {
-    const { props: { getProduct, verifyStock } } = this;
+    const { props: { getProduct, verifyStock, productsOnCart } } = this;
 
     return (
       productsList
@@ -46,6 +46,7 @@ class Home extends Component {
               stock={ quantity }
               getProduct={ getProduct }
               verifyStock={ verifyStock }
+              productsOnCart={ productsOnCart }
             />
           </div>
         ))

@@ -12,7 +12,6 @@ class ProductDetails extends Component {
       productPrice: '',
       productImg: '',
       productId: '',
-      productStock: 0,
       productAttributes: [],
     };
   }
@@ -24,15 +23,27 @@ class ProductDetails extends Component {
 
   getProductsFunction = async (id) => {
     const response = await api.getProductById(id);
-    const { title, price, thumbnail, attributes, available_quantity: stock } = response;
+    const { title, price, thumbnail, attributes } = response;
     this.setState({
       productName: title,
       productPrice: price,
       productImg: thumbnail,
       productAttributes: attributes,
       productId: id,
-      productStock: stock,
     });
+  }
+
+  compareId = () => {
+    const { productsOnCart } = this.props;
+    const { id } = this.state;
+    if (productsOnCart.length !== 0) {
+      const compare = (
+        productsOnCart.find((product) => product.productId === `${id}`)
+      );
+      if (compare) return compare.productCounter;
+      return null;
+    }
+    return null;
   }
 
   render() {
@@ -70,7 +81,7 @@ class ProductDetails extends Component {
           type="button"
           name={ productName }
           // disabled={
-          //   verifyStock(product.productCounter, product.productStock)
+          //   verifyStock(this.compareId(), productStock)
           // }
           data-testid="product-detail-add-to-cart"
           onClick={ () => getProduct(this.state) }

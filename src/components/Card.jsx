@@ -3,8 +3,21 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 class Card extends Component {
+  compareId = () => {
+    const { productsOnCart, id } = this.props;
+    if (productsOnCart.length !== 0) {
+      const compare = (
+        productsOnCart.find((product) => product.productId === `${id}`)
+      );
+      if (compare) return compare.productCounter;
+      return null;
+    }
+    return null;
+  }
+
   render() {
-    const { name, image, price, id, stock, getProduct } = this.props;
+    const { name, image, price, id, stock, getProduct, verifyStock } = this.props;
+
     return (
       <div>
         <Link
@@ -17,9 +30,9 @@ class Card extends Component {
         </Link>
         <button
           data-testid="product-add-to-cart"
-          // disabled={
-          //   verifyStock(productCounter, stock)
-          // }
+          disabled={
+            verifyStock(this.compareId(), stock)
+          }
           type="button"
           onClick={ () => (
             getProduct({
@@ -44,7 +57,8 @@ Card.propTypes = {
   id: PropTypes.string.isRequired,
   getProduct: PropTypes.func.isRequired,
   stock: PropTypes.number.isRequired,
-  // verifyStock: PropTypes.func.isRequired,
+  productsOnCart: PropTypes.arrayOf(PropTypes.object).isRequired,
+  verifyStock: PropTypes.func.isRequired,
   // productCounter: PropTypes.number.isRequired,
 };
 
