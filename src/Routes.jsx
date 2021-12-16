@@ -85,7 +85,11 @@ class Routes extends Component {
   updateCart = (productsOnCart, productId, increase = false) => {
     const newCart = productsOnCart.map((prod) => {
       if (prod.productId === productId) {
-        return { ...prod, productCounter: prod.productCounter + 1 };
+        return {
+          ...prod,
+          productCounter: prod.productCounter + 1,
+          productStock: prod.productStock - 1,
+        };
       }
       return prod;
     });
@@ -99,7 +103,11 @@ class Routes extends Component {
   downDateCart = (productsOnCart, productId, increase = false) => {
     const newCart = productsOnCart.map((prod) => {
       if (prod.productId === productId) {
-        return { ...prod, productCounter: prod.productCounter - 1 };
+        return {
+          ...prod,
+          productCounter: prod.productCounter - 1,
+          productStock: prod.productStock + 1,
+        };
       }
       return prod;
     });
@@ -108,6 +116,13 @@ class Routes extends Component {
       this.setState({ productsOnCart: newCart });
     }
     return { productsOnCart: newCart };
+  }
+
+  verifyStock = (param1, param2) => {
+    if (param1 >= param2) {
+      return true;
+    }
+    return false;
   }
 
   totalPurchase = () => {
@@ -131,7 +146,11 @@ class Routes extends Component {
           exact
           path="/"
           render={ () => (
-            <Home getProduct={ getProduct } productsOnCart={ productsOnCart } />) }
+            <Home
+              getProduct={ getProduct }
+              productsOnCart={ productsOnCart }
+              verifyStock={ this.verifyStock }
+            />) }
         />
         <Route
           path="/cart"
@@ -142,6 +161,7 @@ class Routes extends Component {
               downDateCart={ this.downDateCart }
               deleteProductOnCart={ deleteProductOnCart }
               totalPurchase={ this.totalPurchase }
+              verifyStock={ this.verifyStock }
             />) }
         />
         <Route
@@ -153,6 +173,7 @@ class Routes extends Component {
               getProduct={ getProduct }
               allComments={ allComments }
               commentsProduct={ this.commentsProduct }
+              verifyStock={ this.verifyStock }
             />) }
         />
         <Route

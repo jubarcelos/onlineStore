@@ -69,6 +69,9 @@ class ProductDetails extends Component {
         <button
           type="button"
           name={ productName }
+          // disabled={
+          //   verifyStock(product.productCounter, product.productStock)
+          // }
           data-testid="product-detail-add-to-cart"
           onClick={ () => getProduct(this.state) }
         >
@@ -99,4 +102,5 @@ ProductDetails.propTypes = {
   getProduct: PropTypes.func.isRequired,
   allComments: PropTypes.arrayOf(PropTypes.object).isRequired,
   commentsProduct: PropTypes.func.isRequired,
+  // verifyStock: PropTypes.func.isRequired,
 };

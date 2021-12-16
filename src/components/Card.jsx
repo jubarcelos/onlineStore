@@ -17,6 +17,9 @@ class Card extends Component {
         </Link>
         <button
           data-testid="product-add-to-cart"
+          // disabled={
+          //   verifyStock(productCounter, stock)
+          // }
           type="button"
           onClick={ () => (
             getProduct({
@@ -41,6 +44,8 @@ Card.propTypes = {
   id: PropTypes.string.isRequired,
   getProduct: PropTypes.func.isRequired,
   stock: PropTypes.number.isRequired,
+  // verifyStock: PropTypes.func.isRequired,
+  // productCounter: PropTypes.number.isRequired,
 };
 
 export default Card;

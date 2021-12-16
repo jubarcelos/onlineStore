@@ -7,6 +7,7 @@ class Cart extends Component {
     super();
     this.state = {
       newProductOnCart: [],
+      // isDisabled: false,
     };
   }
 
@@ -54,8 +55,30 @@ class Cart extends Component {
     });
   }
 
+  // verifyStock = () => {
+  //   const { productsOnCart } = this.props;
+  //   const { isDisabled } = this.state;
+
+  //   return (
+  //     productsOnCart.map((product) => {
+  //       if (product.productStock <= 0) {
+  //         this.setState({ isDisabled: true });
+  //       } else {
+  //         this.setState({ isDisabled: false });
+  //       }
+  //     })
+  //   );
+  // }
+
+  // verifyStock = (param1, param2) => {
+  //   if (param1 >= param2) {
+  //     return true;
+  //   }
+  //   return false;
+  // }
+
   productInfoCard = () => {
-    const { productsOnCart } = this.props;
+    const { productsOnCart, verifyStock } = this.props;
     return productsOnCart.map((product) => (
       <div key={ product.productId } data-testid="shopping-cart-product-name">
         <p>
@@ -74,6 +97,9 @@ class Cart extends Component {
             onClick={ () => this.increaseQuantity(product.productId) }
             data-testid="product-increase-quantity"
             type="button"
+            disabled={
+              verifyStock(product.productCounter, product.productStock)
+            }
             id={ product.productId }
           >
             +
@@ -136,6 +162,7 @@ Cart.propTypes = {
   updateCart: PropTypes.func.isRequired,
   downDateCart: PropTypes.func.isRequired,
   totalPurchase: PropTypes.func.isRequired,
+  verifyStock: PropTypes.func.isRequired,
 };
 
 export default Cart;

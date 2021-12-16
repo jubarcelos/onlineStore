@@ -32,7 +32,8 @@ class Home extends Component {
   }
 
   showCards = (productsList) => {
-    const { props: { getProduct } } = this;
+    const { props: { getProduct, verifyStock } } = this;
+
     return (
       productsList
         .map(({ title, thumbnail, price, id, available_quantity: quantity }) => (
@@ -44,6 +45,7 @@ class Home extends Component {
               price={ price }
               stock={ quantity }
               getProduct={ getProduct }
+              verifyStock={ verifyStock }
             />
           </div>
         ))
@@ -88,6 +90,7 @@ Home.propTypes = {
   getProduct: PropTypes.func.isRequired,
   productsOnCart: PropTypes.arrayOf(PropTypes.object).isRequired,
   countProducts: PropTypes.number.isRequired,
+  verifyStock: PropTypes.func.isRequired,
 };
 
 export default Home;
