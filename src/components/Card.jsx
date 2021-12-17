@@ -4,10 +4,9 @@ import { Link } from 'react-router-dom';
 
 class Card extends Component {
   render() {
-    
     let { stock } = this.props;
     const {
-      name, image, price, id, getProduct, verifyStock, productsOnCart,
+      name, image, price, id, getProduct, verifyStock, productsOnCart, freeShipping,
     } = this.props;
 
     const checkStok = productsOnCart.find((product) => product.productId === id);
