@@ -3,8 +3,23 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 class Card extends Component {
+  compareId = () => {
+    const { productsOnCart, id } = this.props;
+    if (productsOnCart.length !== 0) {
+      const compare = (
+        productsOnCart.find((product) => product.productId === `${id}`)
+      );
+      if (compare) return compare.productCounter;
+      return null;
+    }
+    return null;
+  }
+
   render() {
-    const { name, image, price, id, getProduct } = this.props;
+    const {
+      name, image, price, id, stock, getProduct, verifyStock, freeShipping,
+    } = this.props;
+
     return (
       <div>
         <Link
@@ -15,8 +30,14 @@ class Card extends Component {
           <img src={ image } alt={ name } />
           <p>{ price }</p>
         </Link>
+        {
+          freeShipping && <p data-testid="free-shipping">Frete Grátis</p>
+        }
         <button
           data-testid="product-add-to-cart"
+          disabled={
+            verifyStock(this.compareId(), stock)
+          }
           type="button"
           onClick={ () => (
             getProduct({
@@ -24,6 +45,7 @@ class Card extends Component {
               productPrice: price,
               productName: name,
               productId: id,
+              productStock: stock,
             })) }
         >
           Buy
@@ -39,6 +61,10 @@ Card.propTypes = {
   price: PropTypes.number.isRequired,
   id: PropTypes.string.isRequired,
   getProduct: PropTypes.func.isRequired,
+  stock: PropTypes.number.isRequired,
+  productsOnCart: PropTypes.arrayOf(PropTypes.object).isRequired,
+  verifyStock: PropTypes.func.isRequired,
+  freeShipping: PropTypes.bool.isRequired,
 };
 
 export default Card;

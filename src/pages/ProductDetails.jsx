@@ -12,6 +12,7 @@ class ProductDetails extends Component {
       productPrice: '',
       productImg: '',
       productId: '',
+      productShipping: false,
       productAttributes: [],
     };
   }
@@ -23,14 +24,32 @@ class ProductDetails extends Component {
 
   getProductsFunction = async (id) => {
     const response = await api.getProductById(id);
-    const { title, price, thumbnail, attributes } = response;
+    const {
+      title, price, thumbnail, attributes, shipping: { free_shipping: freeShipping },
+    } = response;
     this.setState({
       productName: title,
       productPrice: price,
       productImg: thumbnail,
       productAttributes: attributes,
       productId: id,
+      productShipping: freeShipping,
     });
+  }
+
+  // Iniciar novo raciocício de pegar as infos de estoque e produtos no carrinho para desabilitar o botão Add to cart
+  findProdCounter = () => {
+    const { productsOnCart } = this.props;
+    const { productId } = this.state;
+    const prod = productsOnCart.find((product) => product.productId === productId);
+    if (prod) return prod.productCounter;
+  };
+
+  findProdStock = () => {
+    const { productsOnCart } = this.props;
+    const { productId } = this.state;
+    const prodStock = productsOnCart.find((product) => product.productId === productId);
+    if (prodStock) return prodStock.productStock;
   }
 
   render() {
@@ -39,8 +58,9 @@ class ProductDetails extends Component {
         productPrice,
         productImg,
         productAttributes,
+        productShipping,
       },
-      props: { getProduct, productsOnCart, allComments, commentsProduct },
+      props: { getProduct, productsOnCart, allComments, commentsProduct, verifyStock },
     } = this;
     const { match: { params: { id } } } = this.props;
 
@@ -51,6 +71,9 @@ class ProductDetails extends Component {
           -
           { `R$${productPrice}` }
         </h2>
+        {
+          productShipping && <p data-testid="free-shipping">Frete Grátis</p>
+        }
         <img src={ `${productImg}` } alt="productImage" />
         <div>
           <p>Especificações Técnicas</p>
@@ -67,6 +90,7 @@ class ProductDetails extends Component {
         <button
           type="button"
           name={ productName }
+          disabled={ verifyStock(this.findProdCounter(), this.findProdStock()) }
           data-testid="product-detail-add-to-cart"
           onClick={ () => getProduct(this.state) }
         >
@@ -97,4 +121,5 @@ ProductDetails.propTypes = {
   getProduct: PropTypes.func.isRequired,
   allComments: PropTypes.arrayOf(PropTypes.object).isRequired,
   commentsProduct: PropTypes.func.isRequired,
+  verifyStock: PropTypes.func.isRequired,
 };
