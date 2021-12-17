@@ -43,10 +43,11 @@ class Routes extends Component {
     });
   }
 
-  deleteProductOnCart = (newProductOnCart) => {
-    this.setState({
-      productsOnCart: newProductOnCart,
-    });
+  deleteProduct = (product) => {
+    this.setState((prevState) => ({
+      productsOnCart: prevState.productsOnCart
+        .filter((prod) => prod.productId !== product.productId),
+    }));
   }
 
   // O Gabis nos ajudou a refatorar o código da getProduct e groupProducts e preferimos criar as func. setCounter e updateCart  para usarmos tbm no incremento.
@@ -118,8 +119,8 @@ class Routes extends Component {
     return { productsOnCart: newCart };
   }
 
-  verifyStock = (param1, param2) => {
-    if (param1 >= param2) {
+  verifyStock = (param1) => {
+    if (param1 < 1) {
       return true;
     }
     return false;
@@ -137,7 +138,6 @@ class Routes extends Component {
     const {
       state: { productsOnCart, allComments },
       getProduct,
-      deleteProductOnCart,
     } = this;
 
     return (
@@ -159,7 +159,7 @@ class Routes extends Component {
               productsOnCart={ productsOnCart }
               updateCart={ this.updateCart }
               downDateCart={ this.downDateCart }
-              deleteProductOnCart={ deleteProductOnCart }
+              deleteProduct={ this.deleteProduct }
               totalPurchase={ this.totalPurchase }
               verifyStock={ this.verifyStock }
             />) }

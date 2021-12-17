@@ -3,66 +3,28 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 class Cart extends Component {
-  constructor() {
-    super();
-    this.state = {
-      newProductOnCart: [],
-      // isDisabled: false,
-    };
-  }
-
-  componentDidMount() {
-    this.updateState();
-  }
-
-  deleteProduct = (product) => {
-    const { props: { deleteProductOnCart } } = this;
-    this.setState((prevState) => ({
-      newProductOnCart: prevState.newProductOnCart
-        .filter((prod) => prod.productId !== product.productId),
-    }), () => {
-      const { state: { newProductOnCart } } = this;
-      deleteProductOnCart(newProductOnCart);
-    });
-  }
-
   increaseQuantity = (productId) => {
     const { props: { updateCart, productsOnCart } } = this;
     const isIncrease = true;
     updateCart(productsOnCart, productId, isIncrease);
-    this.time();
   }
 
   decreaseQuantity = (productId) => {
-    const { props: { downDateCart, productsOnCart } } = this;
+    const { props: { downDateCart, productsOnCart, deleteProduct } } = this;
     const isIncrease = true;
     downDateCart(productsOnCart, productId, isIncrease);
-    this.time();
     productsOnCart.filter((product) => product.productCounter === 0)
-      .map((option) => this.deleteProduct(option));
-  }
-
-  time = () => {
-    const mil = 1000;
-    setTimeout(() => { this.updateState(); }, mil);
-  }
-  // resolve o delay de atualização para o routes.
-
-  updateState = () => {
-    const { props: { productsOnCart } } = this;
-    this.setState({
-      newProductOnCart: productsOnCart,
-    });
+      .map((option) => deleteProduct(option));
   }
 
   productInfoCard = () => {
-    const { productsOnCart, verifyStock } = this.props;
+    const { productsOnCart, verifyStock, deleteProduct } = this.props;
     return productsOnCart.map((product) => (
       <div key={ product.productId } data-testid="shopping-cart-product-name">
         <p>
           { product.productName }
         </p>
-        <button onClick={ () => this.deleteProduct(product) } type="button">x</button>
+        <button onClick={ () => deleteProduct(product) } type="button">x</button>
         <img src={ product.productImg } alt={ product.productName } />
         <p>
           { `R$ ${(product.productPrice * product.productCounter).toFixed(2)} ` }
@@ -76,7 +38,7 @@ class Cart extends Component {
             data-testid="product-increase-quantity"
             type="button"
             disabled={
-              verifyStock(product.productCounter, product.productStock)
+              verifyStock(product.productStock)
             }
             id={ product.productId }
           >
@@ -136,7 +98,7 @@ class Cart extends Component {
 
 Cart.propTypes = {
   productsOnCart: PropTypes.arrayOf(PropTypes.object).isRequired,
-  deleteProductOnCart: PropTypes.func.isRequired,
+  deleteProduct: PropTypes.func.isRequired,
   updateCart: PropTypes.func.isRequired,
   downDateCart: PropTypes.func.isRequired,
   totalPurchase: PropTypes.func.isRequired,

@@ -34,11 +34,15 @@ describe(`10 - Visualize a lista de produtos adicionados ao carrinho em sua pág
     fireEvent.click(screen.getAllByTestId('product-decrease-quantity')[0]);
     fireEvent.click(screen.getAllByTestId('product-increase-quantity')[1]);
     fireEvent.click(screen.getAllByTestId('product-increase-quantity')[1]);
+
+    console.log(screen.getAllByTestId('product-increase-quantity')[0].outerHTML);
+    console.log(screen.getAllByTestId('product-increase-quantity')[1].outerHTML);
+
     expect(screen.getAllByTestId('shopping-cart-product-quantity')[0]).toHaveTextContent(
       '2',
     );
     expect(screen.getAllByTestId('shopping-cart-product-quantity')[1]).toHaveTextContent(
-      '3',
-    );
-  });
+      '3');
+    });
 });
+
