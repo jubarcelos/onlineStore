@@ -63,7 +63,7 @@ class Home extends Component {
 
   render() {
     const {
-      props: { productsOnCart, countProducts },
+      props: { productsOnCart },
       state: { searchInput, productsList, resultSearch },
       handleClick,
       handleInput,
@@ -82,7 +82,6 @@ class Home extends Component {
         />
         <CartLink
           productsOnCart={ productsOnCart }
-          countProducts={ countProducts }
         />
         <Aside showCards={ showCards } />
         { productsList.length === 0 ? (
@@ -98,7 +97,6 @@ class Home extends Component {
 Home.propTypes = {
   getProduct: PropTypes.func.isRequired,
   productsOnCart: PropTypes.arrayOf(PropTypes.object).isRequired,
-  countProducts: PropTypes.number.isRequired,
   verifyStock: PropTypes.func.isRequired,
 };
 

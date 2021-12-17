@@ -3,22 +3,16 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 class Card extends Component {
-  compareId = () => {
-    const { productsOnCart, id } = this.props;
-    if (productsOnCart.length !== 0) {
-      const compare = (
-        productsOnCart.find((product) => product.productId === `${id}`)
-      );
-      if (compare) return compare.productCounter;
-      return null;
-    }
-    return null;
-  }
-
   render() {
+    let { stock } = this.props;
     const {
-      name, image, price, id, stock, getProduct, verifyStock, freeShipping,
+      name, image, price, id, getProduct, verifyStock, productsOnCart, freeShipping,
     } = this.props;
+
+    const checkStok = productsOnCart.find((product) => product.productId === id);
+    if (checkStok) {
+      stock = checkStok.productStock;
+    }
 
     return (
       <div>
@@ -36,7 +30,7 @@ class Card extends Component {
         <button
           data-testid="product-add-to-cart"
           disabled={
-            verifyStock(this.compareId(), stock)
+            verifyStock(stock)
           }
           type="button"
           onClick={ () => (

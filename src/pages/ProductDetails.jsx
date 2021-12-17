@@ -90,7 +90,7 @@ class ProductDetails extends Component {
         <button
           type="button"
           name={ productName }
-          disabled={ verifyStock(this.findProdCounter(), this.findProdStock()) }
+          disabled={ verifyStock(this.findProdStock()) }
           data-testid="product-detail-add-to-cart"
           onClick={ () => getProduct(this.state) }
         >
