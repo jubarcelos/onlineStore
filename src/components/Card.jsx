@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 
 class Card extends Component {
   render() {
+    
     let { stock } = this.props;
     const {
       name, image, price, id, getProduct, verifyStock, productsOnCart,
@@ -24,6 +25,9 @@ class Card extends Component {
           <img src={ image } alt={ name } />
           <p>{ price }</p>
         </Link>
+        {
+          freeShipping && <p data-testid="free-shipping">Frete Grátis</p>
+        }
         <button
           data-testid="product-add-to-cart"
           disabled={
@@ -55,6 +59,7 @@ Card.propTypes = {
   stock: PropTypes.number.isRequired,
   productsOnCart: PropTypes.arrayOf(PropTypes.object).isRequired,
   verifyStock: PropTypes.func.isRequired,
+  freeShipping: PropTypes.bool.isRequired,
 };
 
 export default Card;
