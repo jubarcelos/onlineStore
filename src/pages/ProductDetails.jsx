@@ -12,8 +12,6 @@ class ProductDetails extends Component {
       productPrice: '',
       productImg: '',
       productId: '',
-      stockData: 0,
-      counterData: 0,
       productAttributes: [],
     };
   }
@@ -21,7 +19,6 @@ class ProductDetails extends Component {
   componentDidMount() {
     const { match: { params: { id } } } = this.props;
     this.getProductsFunction(id);
-    this.compareId();
   }
 
   getProductsFunction = async (id) => {
@@ -37,24 +34,18 @@ class ProductDetails extends Component {
   }
 
   // Iniciar novo raciocício de pegar as infos de estoque e produtos no carrinho para desabilitar o botão Add to cart
-  compareId = () => {
+  findProdCounter = () => {
     const { productsOnCart } = this.props;
     const { productId } = this.state;
+    const prod = productsOnCart.find((product) => product.productId === productId);
+    if (prod) return prod.productCounter;
+  };
 
-    if (productsOnCart.length !== 0) {
-      const compare = (
-        productsOnCart.find((product) => product.productId === `${productId}`)
-      );
-      if (compare) {
-        this.setState({
-          stockData: compare.productStock,
-          counterData: compare.productCounter,
-        });
-        // return compare;
-      }
-      return null;
-    }
-    return null;
+  findProdStock = () => {
+    const { productsOnCart } = this.props;
+    const { productId } = this.state;
+    const prodStock = productsOnCart.find((product) => product.productId === productId);
+    if (prodStock) return prodStock.productStock;
   }
 
   render() {
@@ -63,12 +54,13 @@ class ProductDetails extends Component {
         productPrice,
         productImg,
         productAttributes,
-        stockData,
-        counterData,
+        // productId,
       },
       props: { getProduct, productsOnCart, allComments, commentsProduct, verifyStock },
     } = this;
     const { match: { params: { id } } } = this.props;
+
+    console.log(productsOnCart);
 
     return (
       <div>
@@ -93,9 +85,7 @@ class ProductDetails extends Component {
         <button
           type="button"
           name={ productName }
-          disabled={
-            verifyStock(stockData, counterData)
-          }
+          disabled={ verifyStock(this.findProdCounter(), this.findProdStock()) }
           data-testid="product-detail-add-to-cart"
           onClick={ () => getProduct(this.state) }
         >

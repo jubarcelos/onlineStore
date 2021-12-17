@@ -70,7 +70,7 @@ class Routes extends Component {
             productPrice,
             productName,
             productId,
-            productStock,
+            productStock: productStock >= 1 ? productStock - 1 : 0,
             productCounter: 1,
           }],
       };
