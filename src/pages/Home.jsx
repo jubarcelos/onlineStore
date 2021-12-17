@@ -36,7 +36,14 @@ class Home extends Component {
 
     return (
       productsList
-        .map(({ title, thumbnail, price, id, available_quantity: quantity }) => (
+        .map(({
+          title,
+          thumbnail,
+          price,
+          id,
+          available_quantity: quantity,
+          shipping: { free_shipping: freeShipping },
+        }) => (
           <div key={ id } data-testid="product">
             <Card
               id={ id }
@@ -47,6 +54,7 @@ class Home extends Component {
               getProduct={ getProduct }
               verifyStock={ verifyStock }
               productsOnCart={ productsOnCart }
+              freeShipping={ freeShipping }
             />
           </div>
         ))

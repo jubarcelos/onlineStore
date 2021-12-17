@@ -16,7 +16,9 @@ class Card extends Component {
   }
 
   render() {
-    const { name, image, price, id, stock, getProduct, verifyStock } = this.props;
+    const {
+      name, image, price, id, stock, getProduct, verifyStock, freeShipping,
+    } = this.props;
 
     return (
       <div>
@@ -28,6 +30,9 @@ class Card extends Component {
           <img src={ image } alt={ name } />
           <p>{ price }</p>
         </Link>
+        {
+          freeShipping && <p data-testid="free-shipping">Frete Grátis</p>
+        }
         <button
           data-testid="product-add-to-cart"
           disabled={
@@ -59,7 +64,7 @@ Card.propTypes = {
   stock: PropTypes.number.isRequired,
   productsOnCart: PropTypes.arrayOf(PropTypes.object).isRequired,
   verifyStock: PropTypes.func.isRequired,
-  // productCounter: PropTypes.number.isRequired,
+  freeShipping: PropTypes.bool.isRequired,
 };
 
 export default Card;

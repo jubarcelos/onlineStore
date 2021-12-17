@@ -12,6 +12,7 @@ class ProductDetails extends Component {
       productPrice: '',
       productImg: '',
       productId: '',
+      productShipping: false,
       productAttributes: [],
     };
   }
@@ -23,13 +24,16 @@ class ProductDetails extends Component {
 
   getProductsFunction = async (id) => {
     const response = await api.getProductById(id);
-    const { title, price, thumbnail, attributes } = response;
+    const {
+      title, price, thumbnail, attributes, shipping: { free_shipping: freeShipping },
+    } = response;
     this.setState({
       productName: title,
       productPrice: price,
       productImg: thumbnail,
       productAttributes: attributes,
       productId: id,
+      productShipping: freeShipping,
     });
   }
 
@@ -54,13 +58,11 @@ class ProductDetails extends Component {
         productPrice,
         productImg,
         productAttributes,
-        // productId,
+        productShipping,
       },
       props: { getProduct, productsOnCart, allComments, commentsProduct, verifyStock },
     } = this;
     const { match: { params: { id } } } = this.props;
-
-    console.log(productsOnCart);
 
     return (
       <div>
@@ -69,6 +71,9 @@ class ProductDetails extends Component {
           -
           { `R$${productPrice}` }
         </h2>
+        {
+          productShipping && <p data-testid="free-shipping">Frete Grátis</p>
+        }
         <img src={ `${productImg}` } alt="productImage" />
         <div>
           <p>Especificações Técnicas</p>
