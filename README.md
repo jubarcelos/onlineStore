@@ -35,7 +35,7 @@ Code review.
 - Kanban / Trello
 - Scrum
 
-* [Link to view at Github Pages]()
+* INATIVE! [Link to view at Github Pages]()
 
 ### Improviments
 
